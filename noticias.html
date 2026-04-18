@@ -4,6 +4,8 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Notícias e Comunicados Oficiais</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -30,12 +32,13 @@
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen antialiased">
 <div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
 <div class="layout-container flex h-full grow flex-col">
+<!-- TopNavBar Component -->
 <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-4 bg-white dark:bg-slate-900 sticky top-0 z-50">
 <div class="flex items-center gap-8">
 <a class="flex items-center" href="index.html">
-<img src="logo sec educ.png" alt="Secretaria de Educação" class="h-10 w-auto">
+<img src="logo sec educ.png" alt="Secretaria de Educação" class="h-12 w-auto">
 </a>
-<nav class="flex items-center gap-8">
+<nav class="hidden md:flex items-center gap-9">
 <a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="index.html">Início</a>
 <a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="sobre.html">Sobre</a>
 <a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="escolas.html">Escolas</a>
@@ -56,6 +59,7 @@
 </a>
 </div>
 </header>
+
 <main class="flex-1 max-w-7xl w-full mx-auto px-6 py-8">
 <div class="flex flex-col gap-8">
 <section>
@@ -235,6 +239,57 @@
 </div>
 </div>
 </main>
+<footer class="bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-auto">
+<div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-2">
+<img src="logo sec educ.png" alt="Secretaria de Educação" class="h-10 w-auto">
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-sm">Compromisso com o futuro através de uma educação pública, gratuita e de qualidade para todos os cidadãos.</p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-900 dark:text-slate-100 font-bold">Contato</h4>
+<div class="flex flex-col gap-2 text-sm text-slate-600 dark:text-slate-400">
+<p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">location_on</span> Av. Principal, 1000 - Centro</p>
+<p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">call</span> (00) 3333-4444</p>
+<p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">mail</span> contato.sme@cidade.gov.br</p>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-900 dark:text-slate-100 font-bold">Links Úteis</h4>
+<nav class="flex flex-col gap-2 text-sm">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="transparencia.html">Diário Oficial</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="transparencia.html">Licitações</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="transparencia.html">Legislação</a>
+<a class="text-primary font-medium flex items-center gap-1" href="transparencia.html"><span class="material-symbols-outlined text-base">account_balance</span> Portal da Transparência</a>
+</nav>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-900 dark:text-slate-100 font-bold">Redes Sociais</h4>
+<div class="flex items-center gap-4">
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-colors" href="contato.html">
+<span class="material-symbols-outlined">share</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-colors" href="contato.html">
+<span class="material-symbols-outlined">photo_camera</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-colors" href="contato.html">
+<span class="material-symbols-outlined">play_circle</span>
+</a>
+</div>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-500">
+<p>© 2024 Secretaria Municipal de Educação. Todos os direitos reservados.</p>
+<div class="flex items-center gap-4">
+<a class="hover:text-slate-900 dark:hover:text-slate-300" href="contato.html">Política de Privacidade</a>
+<a class="hover:text-slate-900 dark:hover:text-slate-300" href="contato.html">Termos de Uso</a>
+<a class="hover:text-slate-900 dark:hover:text-slate-300" href="index.html">Mapa do Site</a>
+</div>
+</div>
+</div>
+</footer>
 </div>
 </div>
 </body></html>

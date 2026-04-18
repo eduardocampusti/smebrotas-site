@@ -3,11 +3,12 @@
 <html class="light" lang="pt-BR"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Secretaria de Educação - Home</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<title>Secretaria de Educação - Início</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -27,46 +28,42 @@
         }
     </script>
 </head>
-<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden">
-<!-- Top Nav Bar -->
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden antialiased">
+<div class="relative flex min-h-screen w-full flex-col group/design-root">
+<div class="layout-container flex h-full grow flex-col">
+<!-- TopNavBar Component -->
 <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-4 bg-white dark:bg-slate-900 sticky top-0 z-50">
 <div class="flex items-center gap-8">
 <a class="flex items-center" href="index.html">
-<img src="logo sec educ.png" alt="Secretaria de Educação" class="h-10 w-auto">
+<img src="logo sec educ.png" alt="Secretaria de Educação" class="h-12 w-auto">
 </a>
-<nav class="hidden md:flex items-center gap-8">
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="sobre.html">A Secretaria</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="escolas.html">Escolas</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="servicos.html">Serviços</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="noticias.html">Notícias</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="programas.html">Programas</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="transparencia.html">Transparência</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="contato.html">Contato</a>
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-sm font-medium leading-normal text-primary border-b-2 border-primary pb-1" href="index.html">Início</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="sobre.html">Sobre</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="escolas.html">Escolas</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="servicos.html">Serviços</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="noticias.html">Notícias</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="programas.html">Programas</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="transparencia.html">Transparência</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="contato.html">Contato</a>
 </nav>
 </div>
-<div class="flex flex-1 justify-end gap-6 items-center">
-<label class="hidden md:flex flex-col min-w-40 h-10 max-w-64">
-<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-slate-100 dark:bg-slate-800">
-<div class="text-slate-500 dark:text-slate-400 flex items-center justify-center pl-4 rounded-l-lg">
-<span class="material-symbols-outlined">search</span>
-</div>
-<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-0 border-none bg-transparent h-full placeholder:text-slate-500 dark:placeholder:text-slate-400 px-4 text-sm font-normal leading-normal" placeholder="Buscar serviços, escolas..." value=""/>
-</div>
-</label>
-<a class="inline-flex items-center justify-center bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg text-sm font-bold transition-colors" href="portal.html">
-                Entrar gov.br
-            </a>
+<div class="flex items-center gap-8">
+<a class="inline-flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors shadow-sm" href="portal.html">
+<span class="truncate">Portal do Aluno</span>
+</a>
 </div>
 </header>
+
 <main class="flex-1 max-w-[1200px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-12">
 <!-- Hero Section -->
 <section class="@container">
-<div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-xl items-start justify-end p-8 md:p-12 relative overflow-hidden group" data-alt="Estudantes em sala de aula focados" style='background-image: linear-gradient(rgba(19, 127, 236, 0.2) 0%, rgba(16, 25, 34, 0.8) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuD2XCQ0VxLvetzbieNNcQ1l4LwLyW3-U0vkDcX0iC2LewFFhK_g3qiJp0LFO6J5DnktTG5eanEVTgpOUo4CchSGAUOFPOG3trVaHKsBJijwrCUfCJtm4QZLcpXO8DMfVpozz_Wo4zoUTpM7aNlJraLJuM_bCVEes2xFoMmNGCX84tu6PPIYd3U5f0EFGyYR2rMX69Mz_pKY0hs5C6wLBT2U8pGc3GO79Ox8bdZmr478JjrT_We2VE7lEdXdr5GGGWH-LYoUOklH7po");'>
+<div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-2xl items-start justify-end p-8 md:p-12 relative overflow-hidden group shadow-xl" style='background-image: linear-gradient(rgba(19, 127, 236, 0.2) 0%, rgba(16, 25, 34, 0.8) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuD2XCQ0VxLvetzbieNNcQ1l4LwLyW3-U0vkDcX0iC2LewFFhK_g3qiJp0LFO6J5DnktTG5eanEVTgpOUo4CchSGAUOFPOG3trVaHKsBJijwrCUfCJtm4QZLcpXO8DMfVpozz_Wo4zoUTpM7aNlJraLJuM_bCVEes2xFoMmNGCX84tu6PPIYd3U5f0EFGyYR2rMX69Mz_pKY0hs5C6wLBT2U8pGc3GO79Ox8bdZmr478JjrT_We2VE7lEdXdr5GGGWH-LYoUOklH7po");'>
 <div class="relative z-10 flex flex-col gap-4 text-left max-w-2xl">
 <span class="inline-flex items-center gap-2 text-primary-100 bg-primary/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white">
 <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
                         Matrículas 2024 Abertas
-                    </span>
+</span>
 <h1 class="text-white text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-[-0.033em]">
                         Educação Pública de Qualidade para Todos
                     </h1>
@@ -85,6 +82,7 @@
 </div>
 </div>
 </section>
+
 <!-- Quick Access Grid -->
 <section>
 <h2 class="text-slate-900 dark:text-slate-100 text-2xl font-bold leading-tight tracking-[-0.015em] mb-6">Acesso Rápido</h2>
@@ -121,6 +119,7 @@
 </a>
 </div>
 </section>
+
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 <!-- Latest News -->
 <section class="lg:col-span-2">
@@ -140,7 +139,7 @@
 </div>
 </article>
 <!-- Secondary News -->
-<article class="flex flex-col gap-3 group cursor-pointer">
+<article class="flex flex-col gap-3 group cursor-pointer" onclick="window.location.href='noticias.html'">
 <div class="w-full bg-slate-200 dark:bg-slate-800 aspect-[16/9] rounded-xl overflow-hidden">
 <div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Alunos recebendo medalhas" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCmCTCJTQfF2hm6M35n_pd_tv99pvBRAcdrWGHyx39BmoZjiJoy45cw-jH1Tnp1ZzRiQFxVwWNy6esNtNI9lqToPcU_uY-J2ZADiqgDrkIXFgguNFzn0qZYt83UYGRHjPOCKKG-SNTYgUT3ehYTYFv0djdgKkpSJsTiNBGnGKBsIi6cMCQqF90L5-n0Rt1I790sooOx-6vgmXBS4k3txEUlDSioSTh-88FQRCoHmUBCeI00SXvCjOtxlg0qTAlWu8Va86aQnkwjXzY");'></div>
 </div>
@@ -150,7 +149,7 @@
 <span class="text-slate-500 text-xs mt-2 block">10 de Março, 2024</span>
 </div>
 </article>
-<article class="flex flex-col gap-3 group cursor-pointer">
+<article class="flex flex-col gap-3 group cursor-pointer" onclick="window.location.href='noticias.html'">
 <div class="w-full bg-slate-200 dark:bg-slate-800 aspect-[16/9] rounded-xl overflow-hidden">
 <div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Professores em sala de treinamento" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhMl2KPDOHMCbJ9rFHMdSf8YA3Yh8hLz-Q3fTsnMgbrL3rlygJDfx7s-VGEYDriHqWvLrdwT2OU-Kqiv56VDz7Ohnv4I7FyS0pLJfQQyOoY5ClZhZSVBo4CSYH8oOX9aTkDDfIudDj92Z3CXok7TbGP8Xh5svtR7ZYVg2lTtbY2AZCsek1JL4wYnt_n6bRsEAZzMr1rwULRLg3T3lrMgRD3EzNqrai7M_Oj9n_LsOgTXdQlacd5oo_pTTXI1g577Nq4oYBh9d5vZk");'></div>
 </div>
@@ -225,15 +224,15 @@
 </div>
 </div>
 </main>
-<!-- Footer -->
-<footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12">
+
+<footer class="bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-auto">
 <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
 <div class="flex flex-col gap-4">
 <div class="flex items-center gap-2">
-<h3 class="text-slate-900 dark:text-slate-100 text-lg font-bold">Secretaria de Educação</h3>
+<img src="logo sec educ.png" alt="Secretaria de Educação" class="h-10 w-auto">
 </div>
-<p class="text-slate-600 dark:text-slate-400 text-sm">Compromisso com o futuro através de uma educação pública, gratuita e de qualidade para todos os cidadãos.</p>
+<p class="text-slate-600 dark:text-slate-400 text-sm">Compromisso com o futuro através de uma education pública, gratuita e de qualidade para todos os cidadãos.</p>
 </div>
 <div class="flex flex-col gap-4">
 <h4 class="text-slate-900 dark:text-slate-100 font-bold">Contato</h4>
@@ -277,4 +276,6 @@
 </div>
 </div>
 </footer>
+</div>
+</div>
 </body></html>

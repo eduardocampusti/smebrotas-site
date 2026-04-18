@@ -3,9 +3,10 @@
 <html class="light" lang="pt-BR"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Portal Educacional - Acesso Restrito</title>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<title>Portal Educacional - Acesso Restrito - Secretaria de Educação</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
@@ -19,7 +20,7 @@
                         "background-dark": "#101922",
                     },
                     fontFamily: {
-                        "display": ["Lexend", "sans-serif"]
+                        "display": ["Public Sans", "sans-serif"]
                     },
                     borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
                 },
@@ -27,137 +28,172 @@
         }
     </script>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
-<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden group/design-root">
 <div class="layout-container flex h-full grow flex-col">
-<div class="px-4 md:px-10 lg:px-40 flex flex-1 justify-center py-5">
-<div class="layout-content-container flex flex-col w-full max-w-[1200px] flex-1">
-<!-- Top Navigation Bar -->
-<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-4 md:px-10 py-4 mb-8">
+<!-- TopNavBar Component -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-4 bg-white dark:bg-slate-900 sticky top-0 z-50">
+<div class="flex items-center gap-8">
 <a class="flex items-center" href="index.html">
-<img src="logo sec educ.png" alt="Secretaria de Educação" class="h-10 w-auto">
+<img src="logo sec educ.png" alt="Secretaria de Educação" class="h-12 w-auto">
 </a>
-<div class="hidden md:flex flex-1 justify-end gap-8">
-<div class="flex items-center gap-9">
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="index.html">Início</a>
-<a class="text-primary font-bold text-sm leading-normal" href="portal.html">Portal Educacional</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="sobre.html">Secretaria</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="escolas.html">Escolas</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="servicos.html">Serviços</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="noticias.html">Notícias</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="programas.html">Programas</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="transparencia.html">Transparência</a>
-<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="contato.html">Contato</a>
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="index.html">Início</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="sobre.html">Sobre</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="escolas.html">Escolas</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="servicos.html">Serviços</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="noticias.html">Notícias</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="programas.html">Programas</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="transparencia.html">Transparência</a>
+<a class="text-sm font-medium leading-normal hover:text-primary transition-colors" href="contato.html">Contato</a>
+</nav>
 </div>
-<a class="inline-flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-6 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]" href="portal.html">
-<span class="material-symbols-outlined mr-2 text-[20px]">login</span>
-<span class="truncate">Entrar</span>
+<div class="flex items-center gap-8">
+<a class="inline-flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors shadow-sm" href="portal.html">
+<span class="truncate">Portal do Aluno</span>
 </a>
 </div>
-<!-- Mobile Menu Button (simplified for UI only) -->
-<button class="md:hidden flex items-center justify-center text-slate-700 dark:text-slate-300">
-<span class="material-symbols-outlined text-2xl">menu</span>
-</button>
 </header>
-<div class="@container w-full">
-<div class="@[480px]:p-4 mb-10">
+
+<main class="flex-1 flex flex-col items-center">
+<div class="w-full max-w-7xl px-6 py-12">
+<div class="flex flex-col gap-10">
 <!-- Hero Section -->
-<div class="flex min-h-[400px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-xl items-center justify-center p-8 text-center relative overflow-hidden" data-alt="Students walking on a bright sunny university campus" style='background-image: linear-gradient(rgba(16, 25, 34, 0.6), rgba(16, 25, 34, 0.8)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAvrg76OoqUuwtsnZhovaESl6RBx22obbzLNJW3hDqhHrqke65ZiOG6jvNCRGnnQOiik4wopiX9wKgJllA3SsbXvjfJ-3PWQDOVOw7T9cmMjvo2EwPK6NxG9GHMM_wrAlcG22uKGBsRsW8NOsb6Vd27oOOOrx2ZNHKcCwSHTKbERXcA4wOv8Dsud8Nsy7aP09poqUtfQz4QXsWfa9LFJqMsNrIgCPUjcrJjXfMuo-MA3CCY5W3Gd2gtl7FLWC7Uu0MZG41DxwgA7nE");'>
+<div class="flex min-h-[400px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-2xl items-center justify-center p-8 text-center relative overflow-hidden shadow-lg" style='background-image: linear-gradient(rgba(16, 25, 34, 0.7), rgba(16, 25, 34, 0.85)), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAvrg76OoqUuwtsnZhovaESl6RBx22obbzLNJW3hDqhHrqke65ZiOG6jvNCRGnnQOiik4wopiX9wKgJllA3SsbXvjfJ-3PWQDOVOw7T9cmMjvo2EwPK6NxG9GHMM_wrAlcG22uKGBsRsW8NOsb6Vd27oOOOrx2ZNHKcCwSHTKbERXcA4wOv8Dsud8Nsy7aP09poqUtfQz4QXsWfa9LFJqMsNrIgCPUjcrJjXfMuo-MA3CCY5W3Gd2gtl7FLWC7Uu0MZG41DxwgA7nE");'>
 <div class="z-10 flex flex-col gap-4 max-w-3xl">
 <h1 class="text-white text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-[-0.033em]">
-                                        Bem-vindo ao Portal Educacional
-                                    </h1>
+                        Bem-vindo ao Portal Educacional
+                    </h1>
 <p class="text-slate-200 text-base md:text-lg font-normal leading-relaxed mt-2">
-                                        Acesso rápido, seguro e unificado aos recursos educacionais para alunos, pais, professores e gestores da rede municipal.
-                                    </p>
+                        Acesso rápido, seguro e unificado aos recursos educacionais para alunos, pais, professores e gestores da rede municipal.
+                    </p>
 </div>
 </div>
-</div>
-</div>
+
 <!-- Profiles Section -->
-<div class="px-4 md:px-8 flex flex-col gap-6 mb-16">
-<div class="text-center mb-6">
-<h2 class="text-2xl md:text-3xl font-bold leading-tight tracking-[-0.015em] mb-2">Escolha o seu perfil de acesso</h2>
-<p class="text-slate-500 dark:text-slate-400">Selecione abaixo para acessar os serviços e materiais específicos.</p>
+<div class="flex flex-col gap-8 mb-16">
+<div class="text-center">
+<h2 class="text-3xl md:text-4xl font-bold leading-tight tracking-tight mb-3">Escolha o seu perfil de acesso</h2>
+<p class="text-slate-600 dark:text-slate-400 text-lg">Selecione abaixo para acessar os serviços e materiais específicos.</p>
 </div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 <!-- Estudantes Card -->
-<a class="group relative flex flex-col overflow-hidden rounded-xl bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-all border border-slate-200 dark:border-slate-700 h-[320px]" href="portal.html">
-<div class="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-500 group-hover:scale-105" data-alt="A diverse group of happy young students in a classroom setting" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8SgQLMHUyoC6R3xXUM00VEkRmErXDAKLtLX41jRUEUWs0hFVft6WPR0iyI0RrRpyoZmZVmaLbIPkjzyi-tHiTviS4paPsjl-fExcWZcs47ypUToQORIhclwr3xJ7hlkjg4rGU2Lv0bdk18fvyzvs0Mt-dmLmdvhhqK1wPgk3wsjJSmqw6U7w6ityMoCmztSwbrZ2YTHxmlUtPalwSx1p6vbIGr1fUnYd6QPq8k44s-6zkYTlS-X96gEe_JgKe1VysyMb4A9vVYEI");'>
+<a class="group relative flex flex-col overflow-hidden rounded-2xl bg-white dark:bg-slate-900 shadow-sm hover:shadow-xl transition-all border border-slate-100 dark:border-slate-800 h-[380px]" href="portal.html">
+<div class="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-700 group-hover:scale-110" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA8SgQLMHUyoC6R3xXUM00VEkRmErXDAKLtLX41jRUEUWs0hFVft6WPR0iyI0RrRpyoZmZVmaLbIPkjzyi-tHiTviS4paPsjl-fExcWZcs47ypUToQORIhclwr3xJ7hlkjg4rGU2Lv0bdk18fvyzvs0Mt-dmLmdvhhqK1wPgk3wsjJSmqw6U7w6ityMoCmztSwbrZ2YTHxmlUtPalwSx1p6vbIGr1fUnYd6QPq8k44s-6zkYTlS-X96gEe_JgKe1VysyMb4A9vVYEI");'>
 </div>
-<div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent z-10"></div>
-<div class="relative z-20 flex flex-col h-full justify-end p-6">
-<div class="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-sm flex items-center justify-center mb-4 text-white">
-<span class="material-symbols-outlined text-2xl">menu_book</span>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent z-10 opacity-90"></div>
+<div class="relative z-20 flex flex-col h-full justify-end p-8">
+<div class="w-14 h-14 rounded-2xl bg-primary/20 backdrop-blur-md flex items-center justify-center mb-6 text-white border border-white/10 group-hover:bg-primary group-hover:border-primary transition-all duration-300">
+<span class="material-symbols-outlined text-3xl">menu_book</span>
 </div>
-<h3 class="text-white text-xl font-bold leading-tight mb-2">Estudantes</h3>
-<p class="text-slate-200 text-sm line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        Materiais didáticos, atividades, notas e boletins online.
-                                    </p>
+<h3 class="text-white text-2xl font-bold leading-tight mb-2">Estudantes</h3>
+<p class="text-slate-300 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            Materiais didáticos, atividades, notas e boletins online de forma simplificada.
+                        </p>
 </div>
 </a>
 <!-- Pais e Responsáveis Card -->
-<a class="group relative flex flex-col overflow-hidden rounded-xl bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-all border border-slate-200 dark:border-slate-700 h-[320px]" href="portal.html">
-<div class="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-500 group-hover:scale-105" data-alt="Parent helping child with homework at a table" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBCCxegX9l16tx3qT_jKDsPHdTtoGMdBoUgobHzDUyISJGsLWb1EvqsAOXzCeIdUsLuic45ChfxdvKbvomGmLFYoevGqTxfmTOX3kxosYuDHMJBRptpBhrOIq5UCr3qxq81d3CNCl7JaVDrzIAbZcXnPAVe2X5IZ_oD7pK8MK7a7EDOEIanHkU1Wkv9ChLk9QVi5kTpyL93fahadr5AhxbgeovVotPyBPmSZa2XfGs_RsoQWTvtbmyrlfzbuzcKUxlTP6-LiaWMNKw");'>
+<a class="group relative flex flex-col overflow-hidden rounded-2xl bg-white dark:bg-slate-900 shadow-sm hover:shadow-xl transition-all border border-slate-100 dark:border-slate-800 h-[380px]" href="portal.html">
+<div class="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-700 group-hover:scale-110" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBCCxegX9l16tx3qT_jKDsPHdTtoGMdBoUgobHzDUyISJGsLWb1EvqsAOXzCeIdUsLuic45ChfxdvKbvomGmLFYoevGqTxfmTOX3kxosYuDHMJBRptpBhrOIq5UCr3qxq81d3CNCl7JaVDrzIAbZcXnPAVe2X5IZ_oD7pK8MK7a7EDOEIanHkU1Wkv9ChLk9QVi5kTpyL93fahadr5AhxbgeovVotPyBPmSZa2XfGs_RsoQWTvtbmyrlfzbuzcKUxlTP6-LiaWMNKw");'>
 </div>
-<div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent z-10"></div>
-<div class="relative z-20 flex flex-col h-full justify-end p-6">
-<div class="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-sm flex items-center justify-center mb-4 text-white">
-<span class="material-symbols-outlined text-2xl">family_restroom</span>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent z-10 opacity-90"></div>
+<div class="relative z-20 flex flex-col h-full justify-end p-8">
+<div class="w-14 h-14 rounded-2xl bg-primary/20 backdrop-blur-md flex items-center justify-center mb-6 text-white border border-white/10 group-hover:bg-primary group-hover:border-primary transition-all duration-300">
+<span class="material-symbols-outlined text-3xl">family_restroom</span>
 </div>
-<h3 class="text-white text-xl font-bold leading-tight mb-2">Pais e Responsáveis</h3>
-<p class="text-slate-200 text-sm line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        Acompanhamento escolar, comunicados e controle de frequência.
-                                    </p>
+<h3 class="text-white text-2xl font-bold leading-tight mb-2">Pais e Responsáveis</h3>
+<p class="text-slate-300 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            Acompanhamento escolar, comunicados diretos e controle de frequência.
+                        </p>
 </div>
 </a>
 <!-- Professores Card -->
-<a class="group relative flex flex-col overflow-hidden rounded-xl bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-all border border-slate-200 dark:border-slate-700 h-[320px]" href="portal.html">
-<div class="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-500 group-hover:scale-105" data-alt="A passionate teacher standing in front of a class explaining a concept" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDKlntHROANmahFo1zZR9k4ncohTemaAgcWN8FU3EW68kTTufKloaDen0cllSOL4C8bB1RNgKhmi1cy2KKBrMskmFPOp3w4aiRiHfYSRGNOGXH1TyX-H9mqOAFP5B48hNezM_rWS7QZWh6GZoKH0TyotfLujAMuas4bzCoey1QoWKAchgnz4MR2PEjGIEbrShwnHucoTn5I053GkJkgl5UkypTcRbdR3ryctbu-Yn08skKc70qgu9rjxTCaWf4uN_4tX5G1JEh9bdo");'>
+<a class="group relative flex flex-col overflow-hidden rounded-2xl bg-white dark:bg-slate-900 shadow-sm hover:shadow-xl transition-all border border-slate-100 dark:border-slate-800 h-[380px]" href="portal.html">
+<div class="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-700 group-hover:scale-110" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDKlntHROANmahFo1zZR9k4ncohTemaAgcWN8FU3EW68kTTufKloaDen0cllSOL4C8bB1RNgKhmi1cy2KKBrMskmFPOp3w4aiRiHfYSRGNOGXH1TyX-H9mqOAFP5B48hNezM_rWS7QZWh6GZoKH0TyotfLujAMuas4bzCoey1QoWKAchgnz4MR2PEjGIEbrShwnHucoTn5I053GkJkgl5UkypTcRbdR3ryctbu-Yn08skKc70qgu9rjxTCaWf4uN_4tX5G1JEh9bdo");'>
 </div>
-<div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent z-10"></div>
-<div class="relative z-20 flex flex-col h-full justify-end p-6">
-<div class="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-sm flex items-center justify-center mb-4 text-white">
-<span class="material-symbols-outlined text-2xl">co_present</span>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent z-10 opacity-90"></div>
+<div class="relative z-20 flex flex-col h-full justify-end p-8">
+<div class="w-14 h-14 rounded-2xl bg-primary/20 backdrop-blur-md flex items-center justify-center mb-6 text-white border border-white/10 group-hover:bg-primary group-hover:border-primary transition-all duration-300">
+<span class="material-symbols-outlined text-3xl">co_present</span>
 </div>
-<h3 class="text-white text-xl font-bold leading-tight mb-2">Professores</h3>
-<p class="text-slate-200 text-sm line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        Lançamento de notas, diário de classe e recursos pedagógicos.
-                                    </p>
+<h3 class="text-white text-2xl font-bold leading-tight mb-2">Professores</h3>
+<p class="text-slate-300 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            Lançamento de notas, diário de classe digital e planejamento escolar.
+                        </p>
 </div>
 </a>
 <!-- Gestores Card -->
-<a class="group relative flex flex-col overflow-hidden rounded-xl bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-all border border-slate-200 dark:border-slate-700 h-[320px]" href="portal.html">
-<div class="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-500 group-hover:scale-105" data-alt="Group of professionals analyzing educational data on a screen" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC4qAXwZ9fNnufoBbASuAIAA0mETyEhu1Bw3OGtidNWvS-ClPljwSjQes37KDWjn8Ke2EKs698eDZh5fWAIaHv2CudnSbks2QH2pmwz_McP0zx7qV6iNYlcKn08irwjDtUqVrZMOkJFbtw2rtRkBVvQosX0MJoS1wg-tbgs3wh4G95AXwau0r4hl5x9oXc16U8hqEtRP3-KOpGCkBGrsn5AnintqcKObXKPw_1h7wKbZ_ln8SaF79fz5RNxWb1zLeGmYl6hdCGn2jw");'>
+<a class="group relative flex flex-col overflow-hidden rounded-2xl bg-white dark:bg-slate-900 shadow-sm hover:shadow-xl transition-all border border-slate-100 dark:border-slate-800 h-[380px]" href="portal.html">
+<div class="absolute inset-0 bg-cover bg-center z-0 transition-transform duration-700 group-hover:scale-110" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC4qAXwZ9fNnufoBbASuAIAA0mETyEhu1Bw3OGtidNWvS-ClPljwSjQes37KDWjn8Ke2EKs698eDZh5fWAIaHv2CudnSbks2QH2pmwz_McP0zx7qV6iNYlcKn08irwjDtUqVrZMOkJFbtw2rtRkBVvQosX0MJoS1wg-tbgs3wh4G95AXwau0r4hl5x9oXc16U8hqEtRP3-KOpGCkBGrsn5AnintqcKObXKPw_1h7wKbZ_ln8SaF79fz5RNxWb1zLeGmYl6hdCGn2jw");'>
 </div>
-<div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent z-10"></div>
-<div class="relative z-20 flex flex-col h-full justify-end p-6">
-<div class="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-sm flex items-center justify-center mb-4 text-white">
-<span class="material-symbols-outlined text-2xl">analytics</span>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent z-10 opacity-90"></div>
+<div class="relative z-20 flex flex-col h-full justify-end p-8">
+<div class="w-14 h-14 rounded-2xl bg-primary/20 backdrop-blur-md flex items-center justify-center mb-6 text-white border border-white/10 group-hover:bg-primary group-hover:border-primary transition-all duration-300">
+<span class="material-symbols-outlined text-3xl">analytics</span>
 </div>
-<h3 class="text-white text-xl font-bold leading-tight mb-2">Gestores</h3>
-<p class="text-slate-200 text-sm line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                        Painéis de indicadores, relatórios gerenciais e documentação.
-                                    </p>
+<h3 class="text-white text-2xl font-bold leading-tight mb-2">Gestores</h3>
+<p class="text-slate-300 text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            Painéis de indicadores em tempo real, relatórios gerenciais e gestão documental.
+                        </p>
 </div>
 </a>
 </div>
 </div>
-<!-- Footer -->
-<footer class="flex flex-col gap-8 px-5 py-12 text-center border-t border-slate-200 dark:border-slate-800 mt-auto">
-<div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="contato.html">Política de Privacidade</a>
-<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="contato.html">Termos de Uso</a>
-<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="contato.html">Acessibilidade</a>
-<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium" href="contato.html">Contato e Suporte</a>
 </div>
-<div class="flex flex-col items-center gap-2">
-<p class="text-slate-500 dark:text-slate-500 text-sm font-normal">© 2023 Secretaria Municipal de Educação. Todos os direitos reservados.</p>
-<p class="text-slate-400 dark:text-slate-600 text-xs font-normal">Desenvolvido com foco na transparência e excelência educacional.</p>
+</div>
+</main>
+
+<footer class="bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-auto">
+<div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-2">
+<img src="logo sec educ.png" alt="Secretaria de Educação" class="h-10 w-auto">
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-sm">Compromisso com o futuro através de uma educação pública, gratuita e de qualidade para todos os cidadãos.</p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-900 dark:text-slate-100 font-bold">Contato</h4>
+<div class="flex flex-col gap-2 text-sm text-slate-600 dark:text-slate-400">
+<p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">location_on</span> Av. Principal, 1000 - Centro</p>
+<p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">call</span> (00) 3333-4444</p>
+<p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">mail</span> contato.sme@cidade.gov.br</p>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-900 dark:text-slate-100 font-bold">Links Úteis</h4>
+<nav class="flex flex-col gap-2 text-sm">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="transparencia.html">Diário Oficial</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="transparencia.html">Licitações</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="transparencia.html">Legislação</a>
+<a class="text-primary font-medium flex items-center gap-1" href="transparencia.html"><span class="material-symbols-outlined text-base">account_balance</span> Portal da Transparência</a>
+</nav>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-900 dark:text-slate-100 font-bold">Redes Sociais</h4>
+<div class="flex items-center gap-4">
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-colors" href="contato.html">
+<span class="material-symbols-outlined">share</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-colors" href="contato.html">
+<span class="material-symbols-outlined">photo_camera</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-colors" href="contato.html">
+<span class="material-symbols-outlined">play_circle</span>
+</a>
+</div>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-500">
+<p>© 2024 Secretaria Municipal de Educação. Todos os direitos reservados.</p>
+<div class="flex items-center gap-4">
+<a class="hover:text-slate-900 dark:hover:text-slate-300" href="contato.html">Política de Privacidade</a>
+<a class="hover:text-slate-900 dark:hover:text-slate-300" href="contato.html">Termos de Uso</a>
+<a class="hover:text-slate-900 dark:hover:text-slate-300" href="index.html">Mapa do Site</a>
+</div>
+</div>
 </div>
 </footer>
-</div>
-</div>
 </div>
 </div>
 </body></html>
