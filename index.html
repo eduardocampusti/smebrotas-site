@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Secretaria de Educação - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Nav Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-4 bg-white dark:bg-slate-900 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-4 text-primary" href="index.html">
+<span class="material-symbols-outlined text-3xl">school</span>
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-[-0.015em]">Secretaria de Educação</h2>
+</a>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="sobre.html">A Secretaria</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="escolas.html">Escolas</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="servicos.html">Serviços</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="noticias.html">Notícias</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="programas.html">Programas</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="transparencia.html">Transparência</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="contato.html">Contato</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<label class="hidden md:flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-slate-100 dark:bg-slate-800">
+<div class="text-slate-500 dark:text-slate-400 flex items-center justify-center pl-4 rounded-l-lg">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-0 border-none bg-transparent h-full placeholder:text-slate-500 dark:placeholder:text-slate-400 px-4 text-sm font-normal leading-normal" placeholder="Buscar serviços, escolas..." value=""/>
+</div>
+</label>
+<a class="inline-flex items-center justify-center bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg text-sm font-bold transition-colors" href="portal.html">
+                Entrar gov.br
+            </a>
+</div>
+</header>
+<main class="flex-1 max-w-[1200px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-12">
+<!-- Hero Section -->
+<section class="@container">
+<div class="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-xl items-start justify-end p-8 md:p-12 relative overflow-hidden group" data-alt="Estudantes em sala de aula focados" style='background-image: linear-gradient(rgba(19, 127, 236, 0.2) 0%, rgba(16, 25, 34, 0.8) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuD2XCQ0VxLvetzbieNNcQ1l4LwLyW3-U0vkDcX0iC2LewFFhK_g3qiJp0LFO6J5DnktTG5eanEVTgpOUo4CchSGAUOFPOG3trVaHKsBJijwrCUfCJtm4QZLcpXO8DMfVpozz_Wo4zoUTpM7aNlJraLJuM_bCVEes2xFoMmNGCX84tu6PPIYd3U5f0EFGyYR2rMX69Mz_pKY0hs5C6wLBT2U8pGc3GO79Ox8bdZmr478JjrT_We2VE7lEdXdr5GGGWH-LYoUOklH7po");'>
+<div class="relative z-10 flex flex-col gap-4 text-left max-w-2xl">
+<span class="inline-flex items-center gap-2 text-primary-100 bg-primary/20 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white">
+<span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                        Matrículas 2024 Abertas
+                    </span>
+<h1 class="text-white text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-[-0.033em]">
+                        Educação Pública de Qualidade para Todos
+                    </h1>
+<h2 class="text-slate-200 text-base md:text-lg font-normal leading-relaxed">
+                        Construindo o futuro da nossa cidade através do ensino integral, inovação tecnológica e cidadania ativa.
+                    </h2>
+<div class="flex flex-wrap gap-4 mt-4">
+<a class="inline-flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-primary hover:bg-primary/90 text-white text-base font-bold transition-colors shadow-lg shadow-primary/30" href="portal.html">
+                            Acessar Portal do Aluno
+                            <span class="material-symbols-outlined text-xl">arrow_forward</span>
+</a>
+<a class="inline-flex items-center justify-center gap-2 rounded-lg h-12 px-6 bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 text-base font-bold transition-colors" href="escolas.html">
+                            Conheça Nossas Escolas
+                        </a>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Access Grid -->
+<section>
+<h2 class="text-slate-900 dark:text-slate-100 text-2xl font-bold leading-tight tracking-[-0.015em] mb-6">Acesso Rápido</h2>
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+<a class="flex flex-col items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 hover:border-primary dark:hover:border-primary hover:shadow-md transition-all group" href="servicos.html">
+<div class="w-12 h-12 rounded-full bg-primary/10 dark:bg-primary/20 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">edit_document</span>
+</div>
+<h3 class="text-slate-900 dark:text-slate-100 text-sm font-bold text-center">Matrículas</h3>
+</a>
+<a class="flex flex-col items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 hover:border-primary dark:hover:border-primary hover:shadow-md transition-all group" href="servicos.html">
+<div class="w-12 h-12 rounded-full bg-primary/10 dark:bg-primary/20 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">calendar_month</span>
+</div>
+<h3 class="text-slate-900 dark:text-slate-100 text-sm font-bold text-center">Calendário Escolar</h3>
+</a>
+<a class="flex flex-col items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 hover:border-primary dark:hover:border-primary hover:shadow-md transition-all group" href="servicos.html">
+<div class="w-12 h-12 rounded-full bg-primary/10 dark:bg-primary/20 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">restaurant</span>
+</div>
+<h3 class="text-slate-900 dark:text-slate-100 text-sm font-bold text-center">Cardápio Escolar</h3>
+</a>
+<a class="flex flex-col items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 hover:border-primary dark:hover:border-primary hover:shadow-md transition-all group" href="portal.html">
+<div class="w-12 h-12 rounded-full bg-primary/10 dark:bg-primary/20 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">badge</span>
+</div>
+<h3 class="text-slate-900 dark:text-slate-100 text-sm font-bold text-center">Portal do Servidor</h3>
+</a>
+<a class="flex flex-col items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 hover:border-primary dark:hover:border-primary hover:shadow-md transition-all group" href="contato.html">
+<div class="w-12 h-12 rounded-full bg-primary/10 dark:bg-primary/20 text-primary flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">campaign</span>
+</div>
+<h3 class="text-slate-900 dark:text-slate-100 text-sm font-bold text-center">Ouvidoria</h3>
+</a>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Latest News -->
+<section class="lg:col-span-2">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-slate-900 dark:text-slate-100 text-2xl font-bold leading-tight tracking-[-0.015em]">Últimas Notícias</h2>
+<a class="text-primary text-sm font-bold hover:underline flex items-center gap-1" href="noticias.html">Ver todas <span class="material-symbols-outlined text-base">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Featured News -->
+<article class="md:col-span-2 flex flex-col md:flex-row gap-6 bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:shadow-lg transition-shadow">
+<div class="w-full md:w-1/2 aspect-video md:aspect-auto bg-cover bg-center" data-alt="Inauguração de nova escola" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCQx-N-rS-aCG8BZ73JhCdmirsC1_GOAguVoEclwQsafEEWkBowJZy2XcsH4t1HvTl6M5ddVqlgWMypLCOF_2YPzSgf7r4EvyajmVM9KpoLErLUfLl6KYqso8Ot7O1xx7_aZilA_Q9GviHa38B9jtcQgkozWhJ6AiN4NkqDnY8HvaSVJRu5iOjn_bgHrN-SHQtki2u1do3FzTSfqAE2rmbceYBmqA9E6jFs98R7YE8RaMwmFFmxBIN_BDCMspRIGn3oNDDQ0QJB-5g");'></div>
+<div class="p-6 md:p-8 flex flex-col justify-center flex-1">
+<span class="text-primary text-xs font-bold uppercase tracking-wider mb-2">Infraestrutura</span>
+<h3 class="text-slate-900 dark:text-slate-100 text-xl md:text-2xl font-bold leading-tight mb-3 hover:text-primary transition-colors cursor-pointer">Novas escolas são inauguradas na zona rural com tecnologia sustentável</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm mb-4 line-clamp-2">A prefeitura entregou nesta manhã três novas unidades escolares totalmente equipadas com painéis solares e laboratórios de informática.</p>
+<span class="text-slate-500 dark:text-slate-500 text-xs flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> 12 de Março, 2024</span>
+</div>
+</article>
+<!-- Secondary News -->
+<article class="flex flex-col gap-3 group cursor-pointer">
+<div class="w-full bg-slate-200 dark:bg-slate-800 aspect-[16/9] rounded-xl overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Alunos recebendo medalhas" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCmCTCJTQfF2hm6M35n_pd_tv99pvBRAcdrWGHyx39BmoZjiJoy45cw-jH1Tnp1ZzRiQFxVwWNy6esNtNI9lqToPcU_uY-J2ZADiqgDrkIXFgguNFzn0qZYt83UYGRHjPOCKKG-SNTYgUT3ehYTYFv0djdgKkpSJsTiNBGnGKBsIi6cMCQqF90L5-n0Rt1I790sooOx-6vgmXBS4k3txEUlDSioSTh-88FQRCoHmUBCeI00SXvCjOtxlg0qTAlWu8Va86aQnkwjXzY");'></div>
+</div>
+<div>
+<span class="text-primary text-xs font-bold uppercase tracking-wider mb-1 block">Premiação</span>
+<h4 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-snug group-hover:text-primary transition-colors">Olimpíada de Matemática premia alunos da rede municipal</h4>
+<span class="text-slate-500 text-xs mt-2 block">10 de Março, 2024</span>
+</div>
+</article>
+<article class="flex flex-col gap-3 group cursor-pointer">
+<div class="w-full bg-slate-200 dark:bg-slate-800 aspect-[16/9] rounded-xl overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Professores em sala de treinamento" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhMl2KPDOHMCbJ9rFHMdSf8YA3Yh8hLz-Q3fTsnMgbrL3rlygJDfx7s-VGEYDriHqWvLrdwT2OU-Kqiv56VDz7Ohnv4I7FyS0pLJfQQyOoY5ClZhZSVBo4CSYH8oOX9aTkDDfIudDj92Z3CXok7TbGP8Xh5svtR7ZYVg2lTtbY2AZCsek1JL4wYnt_n6bRsEAZzMr1rwULRLg3T3lrMgRD3EzNqrai7M_Oj9n_LsOgTXdQlacd5oo_pTTXI1g577Nq4oYBh9d5vZk");'></div>
+</div>
+<div>
+<span class="text-primary text-xs font-bold uppercase tracking-wider mb-1 block">Capacitação</span>
+<h4 class="text-slate-900 dark:text-slate-100 text-base font-bold leading-snug group-hover:text-primary transition-colors">Formação continuada para professores inicia na próxima semana</h4>
+<span class="text-slate-500 text-xs mt-2 block">08 de Março, 2024</span>
+</div>
+</article>
+</div>
+</section>
+<!-- Sidebar -->
+<div class="flex flex-col gap-8">
+<!-- Education in Numbers -->
+<section class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6">
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-[-0.015em] mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">bar_chart</span>
+                        Educação em Números
+                    </h2>
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">apartment</span>
+</div>
+<span class="text-slate-700 dark:text-slate-300 font-medium">Escolas da Rede</span>
+</div>
+<span class="text-xl font-bold text-slate-900 dark:text-slate-100">142</span>
+</div>
+<div class="flex items-center justify-between p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">face</span>
+</div>
+<span class="text-slate-700 dark:text-slate-300 font-medium">Alunos Matriculados</span>
+</div>
+<span class="text-xl font-bold text-slate-900 dark:text-slate-100">45.280</span>
+</div>
+<div class="flex items-center justify-between p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">group</span>
+</div>
+<span class="text-slate-700 dark:text-slate-300 font-medium">Professores</span>
+</div>
+<span class="text-xl font-bold text-slate-900 dark:text-slate-100">3.850</span>
+</div>
+</div>
+</section>
+<!-- Access by Profile -->
+<section class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6">
+<h2 class="text-slate-900 dark:text-slate-100 text-xl font-bold leading-tight tracking-[-0.015em] mb-4">Acesso por Perfil</h2>
+<div class="grid grid-cols-2 gap-3">
+<a class="flex flex-col items-center justify-center gap-2 p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="portal.html">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors text-3xl">backpack</span>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">Aluno</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-2 p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="portal.html">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors text-3xl">family_restroom</span>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">Responsável</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-2 p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="portal.html">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors text-3xl">local_library</span>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">Professor</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-2 p-4 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group" href="transparencia.html">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors text-3xl">admin_panel_settings</span>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">Gestor</span>
+</a>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12">
+<div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-3xl">school</span>
+<h3 class="text-slate-900 dark:text-slate-100 text-lg font-bold">Secretaria de Educação</h3>
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-sm">Compromisso com o futuro através de uma educação pública, gratuita e de qualidade para todos os cidadãos.</p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-900 dark:text-slate-100 font-bold">Contato</h4>
+<div class="flex flex-col gap-2 text-sm text-slate-600 dark:text-slate-400">
+<p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">location_on</span> Av. Principal, 1000 - Centro</p>
+<p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">call</span> (00) 3333-4444</p>
+<p class="flex items-center gap-2"><span class="material-symbols-outlined text-base">mail</span> contato.sme@cidade.gov.br</p>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-900 dark:text-slate-100 font-bold">Links Úteis</h4>
+<nav class="flex flex-col gap-2 text-sm">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="transparencia.html">Diário Oficial</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="transparencia.html">Licitações</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="transparencia.html">Legislação</a>
+<a class="text-primary font-medium flex items-center gap-1" href="transparencia.html"><span class="material-symbols-outlined text-base">account_balance</span> Portal da Transparência</a>
+</nav>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-900 dark:text-slate-100 font-bold">Redes Sociais</h4>
+<div class="flex items-center gap-4">
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-colors" href="contato.html">
+<span class="material-symbols-outlined">share</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-colors" href="contato.html">
+<span class="material-symbols-outlined">photo_camera</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-colors" href="contato.html">
+<span class="material-symbols-outlined">play_circle</span>
+</a>
+</div>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-500">
+<p>© 2024 Secretaria Municipal de Educação. Todos os direitos reservados.</p>
+<div class="flex items-center gap-4">
+<a class="hover:text-slate-900 dark:hover:text-slate-300" href="contato.html">Política de Privacidade</a>
+<a class="hover:text-slate-900 dark:hover:text-slate-300" href="contato.html">Termos de Uso</a>
+<a class="hover:text-slate-900 dark:hover:text-slate-300" href="index.html">Mapa do Site</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

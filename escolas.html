@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rede Municipal de Ensino - Escolas</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-5 sm:px-4 md:px-10 lg:px-40">
+<div class="layout-content-container flex flex-col w-full max-w-[1200px] flex-1">
+<!-- TopNavBar Component -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-4 py-4 md:px-10 mb-6 bg-white dark:bg-slate-900 rounded-xl shadow-sm">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8 flex items-center justify-center bg-primary text-white rounded-lg">
+<span class="material-symbols-outlined text-xl">school</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] hidden sm:block">Secretaria de Educação</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6 lg:gap-9">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="index.html">Início</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="sobre.html">Sobre</a>
+<a class="text-primary dark:text-primary text-sm font-bold leading-normal border-b-2 border-primary pb-1" href="escolas.html">Escolas</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="servicos.html">Serviços</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="noticias.html">Notícias</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="programas.html">Programas</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="transparencia.html">Transparência</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors text-sm font-medium leading-normal" href="contato.html">Contato</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end items-center gap-4 md:gap-8">
+<label class="hidden sm:flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 overflow-hidden focus-within:ring-2 focus-within:ring-primary/50">
+<div class="text-slate-400 dark:text-slate-500 flex items-center justify-center pl-3">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-0 border-none bg-transparent h-full placeholder:text-slate-400 dark:placeholder:text-slate-500 px-3 text-sm font-normal leading-normal" placeholder="Busca rápida..." value=""/>
+</div>
+</label>
+<a class="hidden sm:inline-flex items-center justify-center bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg text-sm font-bold transition-colors" href="portal.html">
+    Portal Educacional
+</a>
+<button class="md:hidden text-slate-600 dark:text-slate-300 hover:text-primary p-2">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<!-- Page Header & Main Search -->
+<div class="flex flex-col gap-6 p-4 md:p-6 bg-white dark:bg-slate-900 rounded-xl shadow-sm mb-6">
+<div class="flex flex-col gap-2">
+<h1 class="text-slate-900 dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-tight">Rede Municipal de Ensino</h1>
+<p class="text-slate-600 dark:text-slate-400 text-lg font-normal leading-relaxed max-w-2xl">Encontre escolas da rede municipal por bairro, nível de ensino ou pesquise diretamente pelo nome da instituição.</p>
+</div>
+<div class="flex flex-col gap-4 mt-2">
+<label class="flex flex-col w-full">
+<div class="flex w-full items-stretch rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+<div class="text-slate-400 flex items-center justify-center pl-4 pr-2">
+<span class="material-symbols-outlined text-2xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none text-slate-900 dark:text-slate-100 focus:outline-0 focus:ring-0 border-none bg-transparent h-14 placeholder:text-slate-400 px-2 text-base md:text-lg font-normal" placeholder="Buscar escolas por nome, bairro ou endereço..." value=""/>
+<a class="inline-flex items-center justify-center bg-primary hover:bg-primary/90 text-white px-6 py-2 m-1 rounded-lg font-medium transition-colors hidden sm:block" href="escolas.html">
+                                        Buscar
+                                    </a>
+</div>
+</label>
+<!-- Filters -->
+<div class="flex gap-2 flex-wrap items-center mt-2">
+<span class="text-sm font-medium text-slate-500 dark:text-slate-400 mr-2">Filtrar por:</span>
+<a class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary text-white px-5 transition-colors shadow-sm" href="escolas.html">
+<p class="text-sm font-medium">Todos</p>
+</a>
+<a class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 px-5 transition-colors" href="escolas.html">
+<p class="text-sm font-medium">Educação Infantil</p>
+</a>
+<a class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 px-5 transition-colors" href="escolas.html">
+<p class="text-sm font-medium">Ensino Fundamental I</p>
+</a>
+<a class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 px-5 transition-colors" href="escolas.html">
+<p class="text-sm font-medium">Ensino Fundamental II</p>
+</a>
+<a class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 px-5 transition-colors" href="escolas.html">
+<p class="text-sm font-medium">EJA</p>
+</a>
+<a class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 px-5 transition-colors" href="escolas.html">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+<p class="text-sm font-medium">Mais Filtros</p>
+</a>
+</div>
+</div>
+</div>
+<!-- Schools Grid -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between px-2">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Mostrando <span class="text-slate-900 dark:text-white font-bold">42</span> escolas encontradas</p>
+<div class="flex items-center gap-2">
+<span class="text-sm text-slate-500 dark:text-slate-400">Ordenar por:</span>
+<select class="bg-transparent border-none text-sm font-medium text-slate-900 dark:text-slate-100 focus:ring-0 cursor-pointer p-0 pr-4">
+<option>Ordem Alfabética</option>
+<option>Mais Próximas</option>
+<option>Maior Nota IDEB</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- School Card 1 -->
+<div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow group">
+<div class="w-full bg-slate-200 dark:bg-slate-800 aspect-video bg-cover bg-center relative overflow-hidden" data-alt="Fachada moderna de escola municipal com jardim" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBae5PWNCHNzI6EAVEp9d7JpmPXcmqRd2n2MUkgVrAXgdIcvxB59JzQoSNQvNtPlWhFZzPqXB9SIp4cwDj8s57rCNuZ3ATUyGihD80RBH5OYWo3zbI0Ii3Zaj-_lmN3zfgSEz0qJUkpW6JPqs0CMTKI5c2na-GEqqDX9ATxO-JHl3hH0_9Oi-XZjuSioRUFlP30Igv42l2fUOJ3wEaaFry84VprGhyoHGRy5UVEZFiyeIsMhvypch4j2XF9AkkVkDocTDmhufm-_ec");'>
+<div class="absolute top-3 left-3 bg-primary text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-sm">
+                                        Infantil
+                                    </div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight mb-2 group-hover:text-primary transition-colors">EMEB Monteiro Lobato</h3>
+<div class="flex flex-col gap-2 mt-auto text-slate-600 dark:text-slate-400 text-sm">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-base shrink-0 mt-0.5 text-slate-400">location_on</span>
+<span>Rua das Flores, 123 - Centro</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base shrink-0 text-slate-400">call</span>
+<span>(11) 1234-5678</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base shrink-0 text-slate-400">mail</span>
+<span class="truncate">emeb.monteiro@edu.gov.br</span>
+</div>
+</div>
+<div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+<a class="w-full flex items-center justify-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary font-medium py-2.5 rounded-lg transition-colors" href="contato.html">
+<span>Ver Detalhes</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- School Card 2 -->
+<div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow group">
+<div class="w-full bg-slate-200 dark:bg-slate-800 aspect-video bg-cover bg-center relative overflow-hidden" data-alt="Pátio escolar com crianças e área de recreação" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCl3Ce5yBbMbaMVv8C5lQbaZH3pLdyGFku1Q25V8QoCu_EUqAOpW4EDTK5F_Qid4n-iOac6FQchpNZp6jjs63XrvDebCE2yA-U4A05rvxp3TneClu3KN_oCP1fJBAe61VjAJkM1KQJdGtp803vlBxJ8xfBXzZkreuFCNKcqPqdB1vVXgGsdthBbHfl9Z1VIY4kQr5odWaljeDoKUKQVq0AjXHEfqaH0NxdeDgXtyEv8eskn7HfDw4--o4vtGt71l0dP-tpKUCLOaGY");'>
+<div class="absolute top-3 left-3 bg-emerald-600 text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-sm">
+                                        Fundamental I
+                                    </div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight mb-2 group-hover:text-primary transition-colors">EMEB Cecília Meireles</h3>
+<div class="flex flex-col gap-2 mt-auto text-slate-600 dark:text-slate-400 text-sm">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-base shrink-0 mt-0.5 text-slate-400">location_on</span>
+<span>Av. das Árvores, 456 - Bairro das Flores</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base shrink-0 text-slate-400">call</span>
+<span>(11) 2345-6789</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base shrink-0 text-slate-400">mail</span>
+<span class="truncate">emeb.cecilia@edu.gov.br</span>
+</div>
+</div>
+<div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+<a class="w-full flex items-center justify-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary font-medium py-2.5 rounded-lg transition-colors" href="contato.html">
+<span>Ver Detalhes</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- School Card 3 -->
+<div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow group">
+<div class="w-full bg-slate-200 dark:bg-slate-800 aspect-video bg-cover bg-center relative overflow-hidden" data-alt="Prédio educacional com quadra esportiva ao lado" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA7HfiRoVKNbqmzammRaKM94LBxZHhihxCPPTR6TWcCiYGOGpKOZ8TfTbO2Mg_Qve9b-bjRS4DqYq1tf75Be1gczvSU6imxpPsTK8qoWMHmQm17v5ejrA4AbTPMtF_fEm8SAVuRy_JwVy4INju6zsmM4u62JnvjdOU74CpWclIn_KppIcNKOzYTekJ0mKhp_Ws1WwZQ7TDAgIhKMrGVLkP1i0ZnZ3bhWNw39FVPkzyMRjt2Ig2-DT31izJ2noE8Iq47D3wn5UMSVSE");'>
+<div class="absolute top-3 left-3 bg-amber-600 text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-sm">
+                                        Fundamental II
+                                    </div>
+<div class="absolute top-3 right-3 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm text-slate-700 dark:text-slate-200 text-xs font-bold px-2 py-1 rounded-md shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-amber-500">star</span> 8.5 IDEB
+                                    </div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight mb-2 group-hover:text-primary transition-colors">EMEB Machado de Assis</h3>
+<div class="flex flex-col gap-2 mt-auto text-slate-600 dark:text-slate-400 text-sm">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-base shrink-0 mt-0.5 text-slate-400">location_on</span>
+<span>Praça da Matriz, 789 - Vila Nova</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base shrink-0 text-slate-400">call</span>
+<span>(11) 3456-7890</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base shrink-0 text-slate-400">mail</span>
+<span class="truncate">emeb.machado@edu.gov.br</span>
+</div>
+</div>
+<div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+<a class="w-full flex items-center justify-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary font-medium py-2.5 rounded-lg transition-colors" href="contato.html">
+<span>Ver Detalhes</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- School Card 4 -->
+<div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow group">
+<div class="w-full bg-slate-200 dark:bg-slate-800 aspect-video bg-cover bg-center relative overflow-hidden" data-alt="Sala de aula iluminada com mesas coloridas" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBfE3ecRmna4OVmKsLIBZs153ptbPAlSjNyZ9FnhRgwA36oM3TydqpZuU5xRPAqekld-TVqCTD4gMawvXOu_d9tC32bdvF3mPeczoKK4ca7GZTpXyc0L-79ND_TEgI_fZAN8X3x5aQxNeJQHfzeCu0fou0P-2-kpAFylOYJhM9aXCTUUpN9LucZdzc4klXCP2pJGv20n7X3MM37mWooZmW5TpcyhE44P9a-MhbxyTR58eKSBzRCULmAsf2pUvNEP1NlOS5mQXjEuPk");'>
+<div class="absolute top-3 left-3 bg-primary text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-sm">
+                                        Infantil
+                                    </div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight mb-2 group-hover:text-primary transition-colors">EMEB Ruth Rocha</h3>
+<div class="flex flex-col gap-2 mt-auto text-slate-600 dark:text-slate-400 text-sm">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-base shrink-0 mt-0.5 text-slate-400">location_on</span>
+<span>Rua dos Ipês, 321 - Jardim Primavera</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base shrink-0 text-slate-400">call</span>
+<span>(11) 4567-8901</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base shrink-0 text-slate-400">mail</span>
+<span class="truncate">emeb.ruth@edu.gov.br</span>
+</div>
+</div>
+<div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+<a class="w-full flex items-center justify-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary font-medium py-2.5 rounded-lg transition-colors" href="contato.html">
+<span>Ver Detalhes</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- School Card 5 -->
+<div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow group">
+<div class="w-full bg-slate-200 dark:bg-slate-800 aspect-video bg-cover bg-center relative overflow-hidden" data-alt="Estudantes adultos em sala de aula" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCY7D0C7ISMscNtcXbCwtULruygw0wWcGr-jAgbLgtCKdbOqEexOZwrvpj-1inh2RTxETNa6eUqP9k65VRsdWqZWXy1bzUtdeX9ESBLRDwpWhqsSICWkO_tIAI3rYU2ZM0HYfSlsrY0bSu5DEeGnS6FyOGUgn0F85m3RIm0TOfLzrsGuYMArQe0hCpdn9ikpmCHiaKFyqovdp_-cAYIMpP-g6F4aSvf8gTwgR1b0as5pg7xzd8Y6WKSgkws5LEAoAf_zWujQytAnmo");'>
+<div class="absolute top-3 left-3 bg-purple-600 text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-sm">
+                                        EJA
+                                    </div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight mb-2 group-hover:text-primary transition-colors">EMEB Ziraldo</h3>
+<div class="flex flex-col gap-2 mt-auto text-slate-600 dark:text-slate-400 text-sm">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-base shrink-0 mt-0.5 text-slate-400">location_on</span>
+<span>Av. Central, 654 - Pq. dos Pássaros</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base shrink-0 text-slate-400">call</span>
+<span>(11) 5678-9012</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base shrink-0 text-slate-400">mail</span>
+<span class="truncate">emeb.ziraldo@edu.gov.br</span>
+</div>
+</div>
+<div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+<a class="w-full flex items-center justify-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary font-medium py-2.5 rounded-lg transition-colors" href="contato.html">
+<span>Ver Detalhes</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- School Card 6 -->
+<div class="flex flex-col bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow group">
+<div class="w-full bg-slate-200 dark:bg-slate-800 aspect-video bg-cover bg-center relative overflow-hidden" data-alt="Biblioteca escolar com prateleiras cheias de livros" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBRHfNVHGQogaOwT1aQYOl2oN7POM4Bx_762aykpyxQVETztB2bybdxc4trRvIcUsdxym7NoHDhX1s3oSostWquFjIpydvR5mvMGhXOa13x4NJJigr9Q9cHWh6YVYYEJhS_NiiuGHSP1Cl16wbD0MOYHf9t5xNNpC-Nh0c_lVYcYSzYO2NE9XpY_fvaTh64L6tir3bGnxhiqjeB_lYY8QG3ERmK4GCiPjKwsRzY8GD-fStR8WQgwIR7brvG3-WFvvr1SUrT0_A4n54");'>
+<div class="absolute top-3 left-3 bg-emerald-600 text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-sm">
+                                        Fundamental I
+                                    </div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight mb-2 group-hover:text-primary transition-colors">EMEB Clarice Lispector</h3>
+<div class="flex flex-col gap-2 mt-auto text-slate-600 dark:text-slate-400 text-sm">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-base shrink-0 mt-0.5 text-slate-400">location_on</span>
+<span>Alameda dos Anjos, 987 - Bairro Alto</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base shrink-0 text-slate-400">call</span>
+<span>(11) 6789-0123</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base shrink-0 text-slate-400">mail</span>
+<span class="truncate">emeb.clarice@edu.gov.br</span>
+</div>
+</div>
+<div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800">
+<a class="w-full flex items-center justify-center gap-2 bg-primary/10 hover:bg-primary/20 text-primary font-medium py-2.5 rounded-lg transition-colors" href="contato.html">
+<span>Ver Detalhes</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center mt-8 mb-10">
+<nav class="flex items-center gap-1">
+<button class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-xl">chevron_left</span>
+</button>
+<a class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white font-medium" href="escolas.html">1</a>
+<a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium" href="escolas.html">2</a>
+<a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium" href="escolas.html">3</a>
+<span class="flex h-10 w-10 items-center justify-center text-slate-500">...</span>
+<a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 font-medium" href="escolas.html">7</a>
+<a class="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800" href="escolas.html">
+<span class="material-symbols-outlined text-xl">chevron_right</span>
+</a>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body></html>
