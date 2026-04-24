@@ -1,0 +1,44 @@
+# Ignorar versão antiga do site (HTML estático)
+/index.html
+/contato.html
+/escolas.html
+/noticias.html
+/portal.html
+/programas.html
+/servicos.html
+/sobre.html
+/transparencia.html
+
+# Ignorar pastas da versão antiga
+/canais_de_atendimento_e_contato/
+/central_de_servi_os_educacionais/
+/not_cias_e_comunicados_oficiais/
+/portal_educacional_acesso_restrito/
+/programas_e_projetos_pedag_gicos/
+/rede_municipal_de_ensino_escolas/
+/secretaria_de_educa_o_home/
+/sobre_a_secretaria_de_educa_o/
+/transpar_ncia_e_indicadores/
+
+# Ignorar assets antigos
+/imagens/
+/logo sec educ.png
+/secretaria_foto.jpg
+/timbre_login.jpg
+
+# Ignorar site final (antigo)
+/site_final/
+
+# Ignorar publicação GitHub antiga
+/publicacao_github/
+
+# Ignorar agente AI
+/.agent/
+
+# Ignorar arquivos de auditoria
+/audit_results.json
+/audit_script.js
+/audit_script.py
+
+# Ignorar docs
+/docs/
