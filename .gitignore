@@ -42,3 +42,12 @@
 
 # Ignorar docs
 /docs/
+
+# Segurança: nunca versionar variáveis de ambiente na raiz
+.env
+.env.local
+.env.*.local
+
+# Temporários locais de desenvolvimento
+commit-msg.txt
+.cursor/
