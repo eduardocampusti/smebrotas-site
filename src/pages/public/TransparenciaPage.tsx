@@ -526,7 +526,7 @@ export default function TransparenciaPage() {
               <CommandInput
                 placeholder="O que você está procurando? (Ex: Atos, IDEB, Cardápio...)"
                 value={searchTerm}
-                onChange={(e) => updateSearchTerm(e.target.value)}
+                onValueChange={updateSearchTerm}
               />
               {searchTerm ? (
                 <button
