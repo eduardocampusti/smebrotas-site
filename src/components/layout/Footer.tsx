@@ -9,6 +9,13 @@ const defaultLinksEstaticos: DraggableItem[] = [
   { id: '3', nome: 'Mapa do Site', link: '/', ativo: true, ordem: 2 },
 ]
 
+const defaultLinksUteis: DraggableItem[] = [
+  { id: 'fnde', nome: 'FNDE', link: 'https://www.gov.br/fnde/pt-br', ativo: true, ordem: 0 },
+  { id: 'mec', nome: 'MEC', link: 'https://www.gov.br/mec/pt-br', ativo: true, ordem: 1 },
+  { id: 'seduc', nome: 'SEDUC-BA', link: 'https://www.educacao.ba.gov.br/', ativo: true, ordem: 2 },
+  { id: 'undime', nome: 'UNDIME', link: 'https://undime.org.br/', ativo: true, ordem: 3 },
+]
+
 export default function Footer() {
   const [config, setConfig] = useState<SiteConfig | null>(null)
 
@@ -22,12 +29,13 @@ export default function Footer() {
 
   const textoInstitucional = config?.rodape_texto || "Compromisso com o futuro através de uma educação pública, gratuita e de qualidade para todos os cidadãos."
   const endereco = config?.rodape_endereco || "Av. Principal, 1000 - Centro"
-  const telefone = config?.rodape_telefone || "(00) 3333-4444"
-  const email = config?.rodape_email || "contato@smebrotas.sp.gov.br"
+  const telefone = config?.rodape_telefone || "(74) 3621-8400"
+  const email = config?.rodape_email || "sme@brotasdemacaubas.ba.gov.br"
 
-  const renderLinksUteis = (config?.rodape_links_uteis && Array.isArray(config.rodape_links_uteis) && config.rodape_links_uteis.length > 0)
-    ? config.rodape_links_uteis.filter(a => a.ativo).sort((a,b) => a.ordem - b.ordem)
-    : []
+  const renderLinksUteis =
+    config?.rodape_links_uteis && Array.isArray(config.rodape_links_uteis) && config.rodape_links_uteis.length > 0
+      ? config.rodape_links_uteis.filter((a) => a.ativo).sort((a, b) => a.ordem - b.ordem)
+      : defaultLinksUteis
 
   const renderRedesSociais = (config?.rodape_redes_sociais && Array.isArray(config.rodape_redes_sociais) && config.rodape_redes_sociais.length > 0)
     ? config.rodape_redes_sociais.filter(a => a.ativo).sort((a,b) => a.ordem - b.ordem)
@@ -91,9 +99,7 @@ export default function Footer() {
                     </Link>
                   );
                 })
-              ) : (
-                <p className="text-slate-400 text-xs italic">Nenhum link configurado</p>
-              )}
+              ) : null}
             </nav>
           </div>
           <div className="flex flex-col gap-4">

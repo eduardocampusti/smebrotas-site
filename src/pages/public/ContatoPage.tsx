@@ -1,7 +1,82 @@
 import { useEffect, useState, type FormEvent } from 'react'
+import {
+  AtSign,
+  Briefcase,
+  Bus,
+  Clock,
+  Globe,
+  LoaderCircle,
+  Mail,
+  Map,
+  MapPin,
+  Phone,
+  PlayCircle,
+  Send,
+  UserPlus,
+  Users,
+  UtensilsCrossed,
+} from 'lucide-react'
 import { supabase } from '../../config/supabase'
-import type { ContatoInfo, Faq } from '../../types'
+import type { ContatoInfo, Faq, Setor } from '../../types'
 import { toast } from 'sonner'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Separator } from '@/components/ui/separator'
+import { Textarea } from '@/components/ui/textarea'
+import { cn } from '@/lib/utils'
+
+const FORM_ASSUNTOS = [
+  'Matrícula',
+  'Transporte',
+  'Alimentação',
+  'Educação Especial',
+  'Dúvida Geral',
+  'Reclamação',
+  'Sugestão',
+] as const
+
+const MAP_EMBED_URL =
+  'https://maps.google.com/maps?q=Brotas+de+Macaubas+Bahia&output=embed'
+const MAP_EXTERNAL_URL =
+  'https://www.google.com/maps/search/?api=1&query=Brotas+de+Maca%C3%Babas%2C+Bahia%2C+Brasil'
+
+const SEDE_ENDERECO = 'Av. da Educação, s/n - Centro'
+const SEDE_CEP = '46880-000'
+const SEDE_HORARIO = 'Segunda a Sexta, 08h às 17h'
+const SEDE_TELEFONE = '(74) 3621-8400'
+const SEDE_EMAIL = 'sme@brotasdemacaubas.ba.gov.br'
+
+const FAQ_EDUCACAO_ESPECIAL: Pick<Faq, 'id' | 'pergunta' | 'resposta'>[] = [
+  {
+    id: 'faq-aee',
+    pergunta: 'Como funciona o Atendimento Educacional Especializado (AEE)?',
+    resposta:
+      'O AEE oferece apoio complementar aos estudantes com deficiência, transtornos globais do desenvolvimento ou altas habilidades, em horários contratados à proposta pedagógica da escola. Há salas de recursos com profissionais especializados, planejamento individualizado e articulação com a sala comum. A indicação ao serviço segue avaliação da equipe escolar e do Núcleo de Educação Especial, respeitando critérios legais e laudos quando aplicáveis, com acompanhamento periódico do percurso do estudante.',
+  },
+  {
+    id: 'faq-direitos-def',
+    pergunta: 'Quais são os direitos dos alunos com deficiência na rede municipal?',
+    resposta:
+      'A rede municipal assegura matrícula, permanência e progressão na escola mais próxima de domicílio, sempre que possível na classe comum (educação inclusiva), com apoio pedagógico e avaliação acessível. São previstas adaptações curriculares, materiais e recursos de tecnologia assistiva, transporte e alimentação quando necessários, além de participação da família. Laudos e relatórios médicos ou multiprofissionais, quando existentes, ajudam a planejar o atendimento, sem substituir o direito à matrícula e ao acompanhamento educacional.',
+  },
+]
+
+const FAKE_TELEFONE = /\(00\)\s*3333-000\d*/i
 
 function normalizeContato(data: ContatoInfo): ContatoInfo {
   return {
@@ -25,17 +100,39 @@ function normalizeContato(data: ContatoInfo): ContatoInfo {
   }
 }
 
+function getSetorVisual(nome: string) {
+  const n = nome.toLowerCase()
+  if (n.includes('matr'))
+    return { Icon: UserPlus, iconWrap: 'bg-[#DBEAFE]', iconClass: 'text-[#1D4ED8]' }
+  if (n.includes('transport'))
+    return { Icon: Bus, iconWrap: 'bg-[#D1FAE5]', iconClass: 'text-[#065F46]' }
+  if (n.includes('aliment'))
+    return { Icon: UtensilsCrossed, iconWrap: 'bg-[#FEF3C7]', iconClass: 'text-[#92400E]' }
+  if (n.includes('human') || n.includes('rh') || n.includes('recurso human'))
+    return { Icon: Users, iconWrap: 'bg-[#EDE9FE]', iconClass: 'text-[#7C3AED]' }
+  return { Icon: Users, iconWrap: 'bg-slate-100', iconClass: 'text-slate-600' }
+}
+
+function formatSetorTelefone(telefone: string | undefined) {
+  if (!telefone?.trim()) return null
+  if (FAKE_TELEFONE.test(telefone)) return null
+  return telefone
+}
+
 export default function ContatoPage() {
   const [contato, setContato] = useState<ContatoInfo | null>(null)
   const [faqs, setFaqs] = useState<Faq[]>([])
   const [loading, setLoading] = useState(true)
+  const [assunto, setAssunto] = useState<string>('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [faqOpen, setFaqOpen] = useState<string[]>([])
 
   useEffect(() => {
     async function fetchData() {
       try {
         const [contatoRes, faqRes] = await Promise.all([
           supabase.from('contato_info').select('*').single(),
-          supabase.from('faq').select('*').eq('ativo', true).order('ordem', { ascending: true })
+          supabase.from('faq').select('*').eq('ativo', true).order('ordem', { ascending: true }),
         ])
 
         if (contatoRes.data) setContato(normalizeContato(contatoRes.data as ContatoInfo))
@@ -49,241 +146,349 @@ export default function ContatoPage() {
     fetchData()
   }, [])
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (!assunto) {
+      toast.error('Selecione um assunto.')
+      return
+    }
+    const form = e.currentTarget
+    setIsSubmitting(true)
+    await new Promise((resolve) => setTimeout(resolve, 700))
     toast.success(contato?.formulario_mensagem_sucesso || 'Mensagem enviada com sucesso! Em breve retornaremos o contato.')
-    const form = e.target as HTMLFormElement
     form.reset()
+    setAssunto('')
+    setIsSubmitting(false)
   }
 
   if (loading || !contato) {
     return (
-      <div className="flex items-center justify-center py-20 min-h-[60vh]">
-        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+      <div className="flex min-h-[60vh] items-center justify-center py-20">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
       </div>
     )
   }
 
   const setoresAtivos = contato.setores.filter((setor) => setor.ativo !== false)
-  const redesSociais = Object.entries(contato.redes_sociais).filter(([, url]) => Boolean(url))
-  const assuntosFormulario = contato.formulario_assuntos.filter(Boolean)
-  const hasEndereco = Boolean(contato.endereco || contato.cep || contato.horario_funcionamento)
-  const hasTelefone = Boolean(contato.telefone_geral || contato.telefone_secundario)
-  const hasEmail = Boolean(contato.email_institucional || contato.email_contato)
-  const hasMapa = Boolean(contato.mapa_url || contato.mapa_imagem_url)
+  const redesEntries = Object.entries(contato.redes_sociais).filter(([, url]) => Boolean(url))
+  const faqsExibicao: Pick<Faq, 'id' | 'pergunta' | 'resposta'>[] = [...faqs, ...FAQ_EDUCACAO_ESPECIAL]
+
+  const fieldClass =
+    'h-12 rounded-lg border-2 border-slate-200 bg-white px-4 text-base placeholder:text-slate-400 focus-visible:border-[#0B4F8A] focus-visible:ring-2 focus-visible:ring-[#0B4F8A]/20 md:text-sm dark:border-slate-700 dark:bg-slate-900'
 
   return (
     <>
-      <div className="flex flex-col gap-3 animate-in fade-in slide-in-from-bottom-4 duration-700">
-        <h1 className="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">
+      <div className="flex animate-in flex-col gap-3 duration-700 fade-in slide-in-from-bottom-4">
+        <Badge className="w-fit gap-1.5 border-0 bg-[#D1FAE5] px-3 py-1.5 text-sm font-medium text-[#065F46] hover:bg-[#D1FAE5]">
+          <Clock className="size-4 shrink-0" aria-hidden />
+          Atendimento Seg-Sex, 08h às 17h
+        </Badge>
+        <h1 className="text-4xl leading-tight font-extrabold tracking-[-0.033em] text-[#0B2545] dark:text-white">
           {contato.titulo_pagina}
         </h1>
-        <p className="text-slate-600 dark:text-slate-400 text-lg font-normal max-w-2xl">
-          {contato.subtitulo_pagina}
-        </p>
+        <p className="max-w-2xl text-lg font-normal text-slate-500 dark:text-slate-400">{contato.subtitulo_pagina}</p>
       </div>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start mt-8">
-        {/* Formulário */}
-        <div className="lg:col-span-7 bg-white dark:bg-slate-900 p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary">mail</span>
-            {contato.formulario_titulo}
-          </h2>
-          <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <label className="flex flex-col w-full">
-                <span className="text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">Nome Completo *</span>
-                <input className="form-input flex w-full rounded-lg text-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 placeholder:text-slate-400 text-base outline-none" placeholder="Seu nome" required type="text"/>
-              </label>
-              <label className="flex flex-col w-full">
-                <span className="text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">E-mail *</span>
-                <input className="form-input flex w-full rounded-lg text-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 placeholder:text-slate-400 text-base outline-none" placeholder="seu.email@exemplo.com" required type="email"/>
-              </label>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <label className="flex flex-col w-full">
-                <span className="text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">Telefone (Opcional)</span>
-                <input className="form-input flex w-full rounded-lg text-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 placeholder:text-slate-400 text-base outline-none" placeholder="(00) 00000-0000" type="tel"/>
-              </label>
-              <label className="flex flex-col w-full">
-                <span className="text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">Assunto *</span>
-                <select className="form-select flex w-full rounded-lg text-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 text-base outline-none cursor-pointer" required defaultValue="">
-                  <option disabled value="">Selecione um assunto</option>
-                  {assuntosFormulario.map((assunto, i) => (
-                    <option key={i} value={assunto}>{assunto}</option>
-                  ))}
-                </select>
-              </label>
-            </div>
-            
-            <label className="flex flex-col w-full">
-              <span className="text-slate-700 dark:text-slate-300 text-sm font-semibold mb-2">Mensagem *</span>
-              <textarea className="form-textarea flex w-full rounded-lg text-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary focus:ring-1 focus:ring-primary p-4 placeholder:text-slate-400 text-base min-h-[160px] resize-y outline-none" placeholder={contato.formulario_placeholder_mensagem} required></textarea>
-            </label>
-            
-            <div className="flex justify-end pt-2">
-              <button className="bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-8 rounded-lg shadow-sm transition-all flex items-center gap-2" type="submit">
-                <span>{contato.formulario_botao_texto}</span>
-                <span className="material-symbols-outlined text-sm">send</span>
-              </button>
-            </div>
-          </form>
-        </div>
-        
-        <div className="lg:col-span-5 flex flex-col gap-6 animate-in fade-in slide-in-from-right-4 duration-700">
-          {/* Card Sede */}
-          <div className="bg-primary/5 dark:bg-primary/10 p-6 rounded-xl border border-primary/20">
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">{contato.sede_titulo}</h3>
-            <div className="flex flex-col gap-4">
-              {hasEndereco && (
-                <div className="flex items-start gap-3">
-                  <span className="material-symbols-outlined text-primary mt-0.5">location_on</span>
-                  <div>
-                    <p className="font-semibold text-slate-900 dark:text-slate-100">{contato.endereco_label}</p>
-                    <p className="text-slate-600 dark:text-slate-400 text-sm mt-1">
-                      {contato.endereco && <>{contato.endereco}<br/></>}
-                      {contato.cep && <>CEP {contato.cep}<br/></>}
-                      {contato.horario_funcionamento && <>Horário: {contato.horario_funcionamento}</>}
-                    </p>
+
+      <div className="mt-8 grid grid-cols-1 items-start gap-10 lg:grid-cols-12">
+        <div className="lg:col-span-7">
+          <Card className="gap-0 rounded-2xl border border-slate-100 py-0 shadow-lg dark:border-slate-800">
+            <CardContent className="p-8">
+              <div className="mb-6 flex items-center gap-2">
+                <Mail className="size-6 shrink-0 text-[#0B4F8A]" aria-hidden />
+                <h2 className="text-xl font-bold text-[#0B2545] dark:text-white">{contato.formulario_titulo}</h2>
+              </div>
+              <Separator className="mb-8" />
+              <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <div className="flex w-full flex-col">
+                    <label htmlFor="contato-nome" className="mb-1 text-sm font-medium text-slate-700 dark:text-slate-300">
+                      Nome Completo *
+                    </label>
+                    <Input
+                      id="contato-nome"
+                      name="nome"
+                      className={fieldClass}
+                      placeholder="Seu nome"
+                      required
+                      type="text"
+                    />
+                  </div>
+                  <div className="flex w-full flex-col">
+                    <label htmlFor="contato-email" className="mb-1 text-sm font-medium text-slate-700 dark:text-slate-300">
+                      E-mail *
+                    </label>
+                    <Input
+                      id="contato-email"
+                      name="email"
+                      className={fieldClass}
+                      placeholder="seu.email@exemplo.com"
+                      required
+                      type="email"
+                    />
                   </div>
                 </div>
-              )}
-              
-              {hasTelefone && (
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-primary">phone</span>
-                    <div>
-                      <p className="font-semibold text-slate-900 dark:text-slate-100">{contato.telefone_label}</p>
-                      {contato.telefone_geral && <p className="text-slate-600 dark:text-slate-400 text-sm mt-0.5">{contato.telefone_geral}</p>}
-                    </div>
+
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <div className="flex w-full flex-col">
+                    <label htmlFor="contato-telefone" className="mb-1 text-sm font-medium text-slate-700 dark:text-slate-300">
+                      Telefone (Opcional)
+                    </label>
+                    <Input
+                      id="contato-telefone"
+                      name="telefone"
+                      className={fieldClass}
+                      placeholder="(00) 00000-0000"
+                      type="tel"
+                    />
                   </div>
-                  {contato.telefone_secundario && (
-                    <div className="flex items-center gap-3 ml-9">
-                      <p className="text-slate-600 dark:text-slate-400 text-sm">{contato.telefone_secundario}</p>
-                    </div>
+                  <div className="flex w-full flex-col">
+                    <span className="mb-1 text-sm font-medium text-slate-700 dark:text-slate-300">Assunto *</span>
+                    <Select value={assunto || undefined} onValueChange={(v) => setAssunto(v ?? '')}>
+                      <SelectTrigger
+                        className={cn(
+                          fieldClass,
+                          'h-12 w-full min-w-0 justify-between py-0 data-placeholder:text-slate-400',
+                        )}
+                        aria-label="Assunto da mensagem"
+                      >
+                        <SelectValue placeholder="Selecione um assunto" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {FORM_ASSUNTOS.map((a) => (
+                          <SelectItem key={a} value={a}>
+                            {a}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="flex w-full flex-col">
+                  <label htmlFor="contato-mensagem" className="mb-1 text-sm font-medium text-slate-700 dark:text-slate-300">
+                    Mensagem *
+                  </label>
+                  <Textarea
+                    id="contato-mensagem"
+                    name="mensagem"
+                    className="min-h-[120px] resize-none rounded-lg border-2 border-slate-200 bg-white px-4 py-3 text-base placeholder:text-slate-400 focus-visible:border-[#0B4F8A] focus-visible:ring-2 focus-visible:ring-[#0B4F8A]/20 md:text-sm dark:border-slate-700 dark:bg-slate-900"
+                    placeholder={contato.formulario_placeholder_mensagem}
+                    required
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="h-12 w-full gap-2 bg-[#0B4F8A] font-semibold text-white hover:bg-[#0a3f72] dark:bg-[#0B4F8A] dark:hover:bg-[#0a3f72]"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <LoaderCircle className="size-4 animate-spin" aria-hidden />
+                      Enviando…
+                    </>
+                  ) : (
+                    <>
+                      {contato.formulario_botao_texto}
+                      <Send className="size-4" aria-hidden />
+                    </>
                   )}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="flex animate-in flex-col gap-6 duration-700 fade-in slide-in-from-right-4 lg:col-span-5">
+          <Card className="gap-0 rounded-2xl border border-slate-100 py-0 shadow-lg dark:border-slate-800">
+            <CardContent className="space-y-0 p-6">
+              <h3 className="mb-5 text-xl font-bold text-[#0B2545] dark:text-white">{contato.sede_titulo}</h3>
+
+              <div className="flex gap-3">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#DBEAFE] p-2">
+                  <MapPin className="size-5 text-[#1D4ED8]" aria-hidden />
                 </div>
-              )}
+                <div>
+                  <p className="font-semibold text-[#0B2545] dark:text-slate-100">{contato.endereco_label}</p>
+                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                    {SEDE_ENDERECO}
+                    <br />
+                    CEP {SEDE_CEP}
+                    <br />
+                    Horário: {SEDE_HORARIO}
+                  </p>
+                </div>
+              </div>
+
+              <Separator className="my-5" />
+
+              <div className="flex gap-3">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#D1FAE5] p-2">
+                  <Phone className="size-5 text-[#065F46]" aria-hidden />
+                </div>
+                <div>
+                  <p className="font-semibold text-[#0B2545] dark:text-slate-100">{contato.telefone_label}</p>
+                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{SEDE_TELEFONE}</p>
+                </div>
+              </div>
+
+              <Separator className="my-5" />
+
+              <div className="flex gap-3">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-[#EDE9FE] p-2">
+                  <Mail className="size-5 text-[#7C3AED]" aria-hidden />
+                </div>
+                <div>
+                  <p className="font-semibold text-[#0B2545] dark:text-slate-100">{contato.email_label}</p>
+                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{SEDE_EMAIL}</p>
+                </div>
+              </div>
 
               {contato.whatsapp && (
-                <a 
-                  href={`https://wa.me/55${contato.whatsapp.replace(/\D/g, '')}`}
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 hover:opacity-80 transition-opacity"
-                >
-                  <span className="material-symbols-outlined text-green-500">chat</span>
-                  <div>
-                    <p className="font-semibold text-slate-900 dark:text-slate-100">{contato.whatsapp_label}</p>
-                    <p className="text-slate-600 dark:text-slate-400 text-sm mt-0.5">{contato.whatsapp}</p>
-                  </div>
-                </a>
-              )}
-
-              {hasEmail && (
-                <div className="flex flex-col gap-1 pb-2">
-                  <div className="flex items-center gap-3">
-                    <span className="material-symbols-outlined text-primary">alternate_email</span>
+                <>
+                  <Separator className="my-5" />
+                  <a
+                    href={`https://wa.me/55${contato.whatsapp.replace(/\D/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex gap-3 transition-opacity hover:opacity-80"
+                  >
+                    <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-green-100 p-2 dark:bg-green-950/40">
+                      <Phone className="size-5 text-green-600 dark:text-green-400" aria-hidden />
+                    </div>
                     <div>
-                      <p className="font-semibold text-slate-900 dark:text-slate-100">{contato.email_label}</p>
-                      {contato.email_institucional && <p className="text-slate-600 dark:text-slate-400 text-sm mt-0.5">{contato.email_institucional}</p>}
+                      <p className="font-semibold text-[#0B2545] dark:text-slate-100">{contato.whatsapp_label}</p>
+                      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{contato.whatsapp}</p>
                     </div>
+                  </a>
+                </>
+              )}
+
+              {redesEntries.length > 0 && (
+                <>
+                  <Separator className="my-5" />
+                  <div className="flex flex-wrap items-center gap-3 pt-1">
+                    {redesEntries.map(([key, url]) => {
+                      const k = key.toLowerCase()
+                      const IconComp =
+                        k === 'instagram'
+                          ? AtSign
+                          : k === 'facebook'
+                            ? Globe
+                            : k === 'youtube'
+                              ? PlayCircle
+                              : k === 'linkedin'
+                                ? Briefcase
+                                : null
+                      return (
+                        <a
+                          key={key}
+                          href={url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex size-10 items-center justify-center rounded-full bg-slate-100 text-[#0B4F8A] shadow-sm transition-all hover:bg-[#0B4F8A] hover:text-white dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-[#0B4F8A]"
+                          title={key.charAt(0).toUpperCase() + key.slice(1)}
+                        >
+                          {IconComp ? (
+                            <IconComp className="size-[18px]" aria-hidden />
+                          ) : (
+                            <span className="text-xs font-semibold uppercase">{key.slice(0, 2)}</span>
+                          )}
+                        </a>
+                      )
+                    })}
                   </div>
-                  {contato.email_contato && (
-                    <div className="flex items-center gap-3 ml-9">
-                      <p className="text-slate-600 dark:text-slate-400 text-sm">{contato.email_contato}</p>
-                    </div>
-                  )}
-                </div>
+                </>
               )}
+            </CardContent>
+          </Card>
 
-              {/* Redes Sociais */}
-              {redesSociais.length > 0 && (
-                <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-primary/20">
-                  {redesSociais.map(([key, url]) => {
-                    const iconMap: Record<string, string> = {
-                      instagram: 'photo_camera',
-                      facebook: 'facebook',
-                      youtube: 'play_circle',
-                      linkedin: 'link'
-                    };
-
-                    return (
-                      <a 
-                        key={key}
-                        href={url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center text-primary shadow-sm hover:bg-primary hover:text-white transition-all"
-                        title={key.charAt(0).toUpperCase() + key.slice(1)}
-                      >
-                        <span className="material-symbols-outlined">{iconMap[key] || 'link'}</span>
-                      </a>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
-          
-          {/* Setores Dinâmicos */}
           {setoresAtivos.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {setoresAtivos.map((setor, i) => (
-              <div key={i} className="bg-white dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/50 transition-colors">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="material-symbols-outlined text-primary text-xl">{setor.icone || 'group'}</span>
-                  <h4 className="font-bold text-slate-900 dark:text-white text-sm">{setor.nome}</h4>
-                </div>
-                {setor.telefone && <p className="text-slate-600 dark:text-slate-400 text-sm mb-1">{setor.telefone}</p>}
-                {setor.email && <p className="text-slate-500 text-xs truncate" title={setor.email}>{setor.email}</p>}
-              </div>
-              ))}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {setoresAtivos.map((setor: Setor, i: number) => {
+                const { Icon, iconWrap, iconClass } = getSetorVisual(setor.nome)
+                const tel = formatSetorTelefone(setor.telefone)
+                return (
+                  <Card
+                    key={`${setor.nome}-${i}`}
+                    className="border border-slate-100 shadow-md transition-all duration-300 hover:-translate-y-[3px] hover:border-[#0B4F8A]/20 hover:shadow-xl dark:border-slate-800"
+                  >
+                    <CardContent className="p-4">
+                      <div className="mb-3 flex items-center gap-3">
+                        <div className={cn('flex size-10 shrink-0 items-center justify-center rounded-lg', iconWrap)}>
+                          <Icon className={cn('size-5', iconClass)} aria-hidden />
+                        </div>
+                        <h4 className="text-sm font-bold text-[#0B2545] dark:text-white">{setor.nome}</h4>
+                      </div>
+                      {tel ? (
+                        <p className="text-sm text-slate-600 dark:text-slate-400">{tel}</p>
+                      ) : (
+                        <p className="text-sm text-slate-400 italic">Em breve</p>
+                      )}
+                      {setor.email ? (
+                        <p className="mt-1 truncate text-xs text-slate-500" title={setor.email}>
+                          {setor.email}
+                        </p>
+                      ) : null}
+                    </CardContent>
+                  </Card>
+                )
+              })}
             </div>
           )}
-          
-          {/* Mapa Dinâmico */}
-          {hasMapa && (
-            <div 
-              className="w-full h-48 rounded-xl overflow-hidden relative border border-slate-200 dark:border-slate-800 flex items-center justify-center bg-cover bg-center"
-              style={contato.mapa_imagem_url ? { backgroundImage: `url(${contato.mapa_imagem_url})` } : undefined}
-            >
-              <div className="absolute inset-0 bg-slate-900/30"></div>
-              {contato.mapa_url && (
-                <a className="relative bg-white text-slate-900 font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-slate-50 transition-colors flex items-center gap-2 z-10" href={contato.mapa_url} rel="noopener noreferrer" target="_blank">
-                  <span className="material-symbols-outlined text-primary">map</span>
-                  {contato.mapa_botao_texto}
-                </a>
-              )}
-            </div>
-          )}
+
+          <div className="overflow-hidden rounded-xl border border-[#E2E8F0] dark:border-slate-700">
+            <iframe
+              title="Mapa — Brotas de Macaúbas, Bahia"
+              src={MAP_EMBED_URL}
+              className="block h-[220px] w-full border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+          </div>
+          <Button variant="outline" className="w-full gap-2 border-slate-200" asChild>
+            <a href={contato.mapa_url || MAP_EXTERNAL_URL} target="_blank" rel="noopener noreferrer">
+              <Map className="size-4" aria-hidden />
+              {contato.mapa_botao_texto}
+            </a>
+          </Button>
         </div>
       </div>
-      
-      {/* FAQ Dinâmico */}
-      {faqs.length > 0 && (
-        <div className="mt-8 pt-10 border-t border-slate-200 dark:border-slate-800 max-w-4xl mx-auto w-full">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">{contato.faq_titulo}</h2>
-            <p className="text-slate-600 dark:text-slate-400">{contato.faq_subtitulo}</p>
+
+      {faqsExibicao.length > 0 && (
+        <div className="mx-auto mt-12 w-full max-w-3xl border-t border-slate-200 pt-10 dark:border-slate-800">
+          <div className="mb-10 flex flex-col items-center text-center">
+            <Badge className="mb-3 border-0 bg-[#EFF6FF] px-3 py-1 text-sm font-medium text-[#0B4F8A] hover:bg-[#EFF6FF]">
+              Perguntas Frequentes
+            </Badge>
+            <h2 className="text-3xl font-bold text-[#0B2545] dark:text-white">{contato.faq_titulo}</h2>
+            <p className="mt-2 text-slate-600 dark:text-slate-400">{contato.faq_subtitulo}</p>
           </div>
-          
-          <div className="flex flex-col gap-4">
-            {faqs.map((faq, i) => (
-              <details key={faq.id} className="group bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden" open={i === 0}>
-                <summary className="flex items-center justify-between p-5 cursor-pointer list-none font-semibold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 [&::-webkit-details-marker]:hidden focus:outline-none">
+
+          <Accordion multiple={false} value={faqOpen} onValueChange={setFaqOpen}>
+            {faqsExibicao.map((faq) => (
+              <AccordionItem
+                key={faq.id}
+                value={faq.id}
+                className="mb-3 rounded-xl border border-slate-200 px-0 not-last:border-b-0 data-open:border-l-4 data-open:border-[#0B4F8A] dark:border-slate-700"
+              >
+                <AccordionTrigger
+                  className={cn(
+                    'px-4 py-4 font-semibold text-[#0B2545] hover:text-[#0B4F8A] hover:no-underline dark:text-white dark:hover:text-[#0B4F8A]',
+                    '[&>svg:nth-last-child(2)]:!block [&>svg:nth-last-child(2)]:transition-transform [&>svg:nth-last-child(2)]:duration-300',
+                    'group-aria-expanded/accordion-trigger:[&>svg:nth-last-child(2)]:rotate-180',
+                    '[&>svg:last-child]:!hidden',
+                  )}
+                >
                   {faq.pergunta}
-                  <span className="material-symbols-outlined transform group-open:rotate-180 transition-transform text-slate-400">expand_more</span>
-                </summary>
-                <div className="p-5 pt-0 text-slate-600 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800 mt-2">
-                  <p className="pt-3">{faq.resposta}</p>
-                </div>
-              </details>
+                </AccordionTrigger>
+                <AccordionContent className="border-0 px-4 pb-4 text-sm leading-relaxed text-slate-600 data-open:bg-slate-50/50 dark:text-slate-400 dark:data-open:bg-slate-900/40">
+                  <p>{faq.resposta}</p>
+                </AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
+          </Accordion>
         </div>
       )}
     </>

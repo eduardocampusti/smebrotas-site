@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { supabase } from '../../config/supabase'
 import type { TopBarItem } from '../../types'
 
-// Dados temporários para teste (caso o banco retorne erro)
 const TEMP_TOPBAR_ITEMS: TopBarItem[] = [
   { id: '1', texto: 'Ouvidoria', icone: 'hearing', link: '#', target_blank: true, ativo: true, ordem: 1 },
   { id: '2', texto: 'Diário Oficial', icone: 'description', link: '#', target_blank: true, ativo: true, ordem: 2 },
@@ -15,6 +15,10 @@ const TEMP_TOPBAR_ITEMS: TopBarItem[] = [
   { id: '8', texto: 'Instagram', icone: 'photo_camera', link: '#', target_blank: true, ativo: true, ordem: 8 }
 ]
 
+function isInternalLink(link: string): boolean {
+  return link.startsWith('/') && !link.startsWith('//')
+}
+
 export default function TopBar() {
   const [items, setItems] = useState<TopBarItem[]>([])
   const [loading, setLoading] = useState(true)
@@ -22,7 +26,6 @@ export default function TopBar() {
   useEffect(() => {
     async function fetchTopBarItems() {
       try {
-        // PASSO 1: Buscar do site_config (onde o painel admin salva)
         const { data: configData, error: configError } = await supabase
           .from('site_config')
           .select('top_bar_items')
@@ -39,7 +42,6 @@ export default function TopBar() {
           }
         }
 
-        // PASSO 2: Buscar da tabela top_bar_items (fonte legada)
         const { data: tableData, error: tableError } = await supabase
           .from('top_bar_items')
           .select('*')
@@ -47,7 +49,7 @@ export default function TopBar() {
           .order('ordem', { ascending: true })
 
         if (!tableError && tableData && tableData.length > 0) {
-          const loadedItems = tableData.map(item => ({
+          setItems(tableData.map(item => ({
             id: String(item.id),
             texto: item.texto,
             icone: item.icone,
@@ -55,13 +57,10 @@ export default function TopBar() {
             target_blank: item.target_blank,
             ativo: item.ativo,
             ordem: item.ordem
-          })) as TopBarItem[]
-
-          setItems(loadedItems)
+          })) as TopBarItem[])
           return
         }
 
-        // PASSO 3: Se tabela não existe, tentar criar automaticamente
         if (tableError?.code === '42P01') {
           try {
             const { error: insertError } = await supabase.from('top_bar_items').insert([
@@ -99,7 +98,6 @@ export default function TopBar() {
           }
         }
 
-        // PASSO 4: Último recurso — dados temporários
         setItems(TEMP_TOPBAR_ITEMS)
       } catch {
         setItems(TEMP_TOPBAR_ITEMS)
@@ -111,93 +109,77 @@ export default function TopBar() {
     fetchTopBarItems()
   }, [])
 
-return (
-    <div 
-      id="top-bar" 
-      style={{ 
-        backgroundColor: '#1e3a8a',
-        color: '#ffffff',
-        zIndex: '10000',
-        position: 'sticky',
-        top: 0,
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-        width: '100%',
-        minHeight: '36px'
-      }}
+  return (
+    <div
+      className="relative w-full min-h-[36px] sticky top-0 z-[10000]
+        bg-gradient-to-r from-blue-950 via-blue-900 to-blue-950
+        shadow-[0_1px_12px_rgba(0,0,0,0.15)]"
     >
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '6px 20px' }}>
-        <div style={{ 
-          display: 'flex', 
-          flexWrap: 'wrap', 
-          justifyContent: 'center', 
-          alignItems: 'center', 
-          gap: '2px',
-          position: 'relative'
-        }}>
+      <div className="max-w-[1400px] mx-auto px-5 py-[7px]">
+        <div className="flex flex-wrap justify-center items-center gap-[2px]">
           {loading ? (
-            <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)' }}>Carregando...</span>
+            <span className="text-[11px] text-white/50 font-medium tracking-wide">
+              Carregando...
+            </span>
           ) : (
             <>
               {items.length === 0 ? (
-                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)' }}>Nenhum item configurado</span>
+                <span className="text-[11px] text-white/50 font-medium">
+                  Nenhum item configurado
+                </span>
               ) : (
-                items.map((item, index) => (
-                  <React.Fragment key={item.id}>
-                    <a
-                      href={item.link}
-                      target={item.target_blank ? '_blank' : undefined}
-                      rel={item.target_blank ? 'noopener noreferrer' : undefined}
-                      className="topbar-item"
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        padding: '4px 10px',
-                        fontSize: '12px',
-                        whiteSpace: 'nowrap',
-                        color: 'rgba(255, 255, 255, 0.95)',
-                        textDecoration: 'none',
-                        borderRadius: '3px',
-                        transition: 'all 0.2s ease',
-                        cursor: 'pointer',
-                        fontWeight: '500',
-                        lineHeight: 1.3
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.15)'
-                        e.currentTarget.style.color = '#ffffff'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent'
-                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)'
-                      }}
-                      title={item.texto}
-                    >
+                items.map((item, index) => {
+                  const itemContent = (
+                    <>
                       {item.icone && (
-                        <span className="material-symbols-outlined" style={{ fontSize: '16px', display: 'flex', alignItems: 'center' }}>
+                        <span className="material-symbols-outlined text-[15px] flex items-center opacity-80 group-hover:opacity-100 transition-opacity duration-200">
                           {item.icone}
                         </span>
                       )}
-                      <span>{item.texto}</span>
-                    </a>
-                    {/* Separador visual entre itens */}
-                    {index < items.length - 1 && (
-                      <span 
-                        className="topbar-separator"
-                        style={{
-                          color: 'rgba(255, 255, 255, 0.35)',
-                          fontSize: '13px',
-                          fontWeight: '200',
-                          padding: '0 2px',
-                          display: 'flex',
-                          alignItems: 'center'
-                        }}
-                      >
-                        |
+                      <span className="text-[12px] font-medium leading-tight">
+                        {item.texto}
                       </span>
-                    )}
-                  </React.Fragment>
-                ))
+                    </>
+                  )
+
+                  const itemClassName = [
+                    'group inline-flex items-center gap-1.5 px-3 py-1 rounded-[4px]',
+                    'text-white/85 hover:text-white',
+                    'hover:bg-white/[0.12] hover:shadow-sm',
+                    'transition-all duration-200 ease-out',
+                    'cursor-pointer select-none whitespace-nowrap',
+                  ].join(' ')
+
+                  const separator = index < items.length - 1 && (
+                    <span
+                      className="text-white/20 text-[13px] font-extralight px-0.5 flex items-center select-none"
+                      aria-hidden="true"
+                    >
+                      |
+                    </span>
+                  )
+
+                  return (
+                    <React.Fragment key={item.id}>
+                      {isInternalLink(item.link) ? (
+                        <Link to={item.link} className={itemClassName} title={item.texto}>
+                          {itemContent}
+                        </Link>
+                      ) : (
+                        <a
+                          href={item.link}
+                          target={item.target_blank ? '_blank' : undefined}
+                          rel={item.target_blank ? 'noopener noreferrer' : undefined}
+                          className={itemClassName}
+                          title={item.texto}
+                        >
+                          {itemContent}
+                        </a>
+                      )}
+                      {separator}
+                    </React.Fragment>
+                  )
+                })
               )}
             </>
           )}

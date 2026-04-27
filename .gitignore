@@ -27,6 +27,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# Testes automatizados locais (não necessários no deploy)
-testsprite_tests/

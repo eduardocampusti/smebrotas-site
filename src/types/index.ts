@@ -257,7 +257,10 @@ export interface Escola {
   
   instagram_url?: string | null
   facebook_url?: string | null
-  
+
+  /** Zona da unidade (Urbana | Rural), quando existir no cadastro */
+  zona?: string | null
+
   created_at?: string
   updated_at?: string
   created_by?: string | null
