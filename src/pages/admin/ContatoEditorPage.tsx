@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { supabase } from '../../config/supabase'
 import type { ContatoInfo, Setor, Faq } from '../../types'
@@ -26,8 +26,11 @@ function normalizeContato(data: ContatoInfo): ContatoInfo {
   }
 }
 
+const OMIT_CONTATO_INFO_UPDATE = new Set(['id', 'updated_at', 'updated_by', 'created_at'])
+
 export default function ContatoEditorPage() {
   const [contato, setContato] = useState<ContatoInfo | null>(null)
+  const contatoInfoColumnKeysRef = useRef<Set<string> | null>(null)
   const [faqs, setFaqs] = useState<Faq[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -44,7 +47,10 @@ export default function ContatoEditorPage() {
         ])
 
         if (contatoRes.error) throw contatoRes.error
-        if (contatoRes.data) setContato(normalizeContato(contatoRes.data as ContatoInfo))
+        if (contatoRes.data) {
+          contatoInfoColumnKeysRef.current = new Set(Object.keys(contatoRes.data as Record<string, unknown>))
+          setContato(normalizeContato(contatoRes.data as ContatoInfo))
+        }
         if (faqRes.data) setFaqs(faqRes.data as Faq[])
       } catch (error) {
         console.error('Erro ao carregar dados:', error)
@@ -62,9 +68,14 @@ export default function ContatoEditorPage() {
     setSaving(true)
 
     try {
-      // 1. Salvar Informações de Contato
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { id, updated_at, updated_by, ...updates } = contato
+      // 1. Salvar Informações de Contato (só colunas existentes no banco)
+      const allowedKeys = contatoInfoColumnKeysRef.current
+      const updates: Record<string, unknown> = {}
+      for (const [key, value] of Object.entries(contato)) {
+        if (OMIT_CONTATO_INFO_UPDATE.has(key)) continue
+        if (allowedKeys && !allowedKeys.has(key)) continue
+        updates[key] = value
+      }
       const { error: contatoError } = await supabase
         .from('contato_info')
         .update(updates)
@@ -86,9 +97,13 @@ export default function ContatoEditorPage() {
       if (faqError) throw faqError
 
       toast.success('Todas as informações foram atualizadas!')
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Erro ao salvar:', error)
-      toast.error('Erro ao salvar alterações.')
+      const message =
+        error && typeof error === 'object' && 'message' in error && typeof (error as { message: unknown }).message === 'string'
+          ? (error as { message: string }).message
+          : 'Erro ao salvar alterações.'
+      toast.error(message)
     } finally {
       setSaving(false)
     }

@@ -75,4 +75,5 @@ dist-ssr
 
 # Temporários locais de desenvolvimento
 commit-msg.txt
-.cursor/
+.cursor/*
+!.cursor/rules/

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { supabase } from '../../config/supabase'
 import { Link } from 'react-router-dom'
@@ -9,8 +9,11 @@ import { ImageUpload } from '../../components/admin/ImageUpload'
 import { getCategoriaLabel, getStatusLabel, getStatusStyle } from '../../constants/noticias'
 import type { StatusNoticia } from '../../constants/noticias'
 
+const OMIT_FROM_SITE_CONFIG_UPDATE = new Set(['id', 'updated_at', 'updated_by', 'created_at'])
+
 export default function HomeEditorPage() {
   const [config, setConfig] = useState<SiteConfig | null>(null)
+  const siteConfigColumnKeysRef = useRef<Set<string> | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [activeTab, setActiveTab] = useState<'hero' | 'cabecalho' | 'navegacao' | 'acesso-rapido' | 'noticias' | 'estatisticas' | 'perfil' | 'rodape'>('hero')
@@ -20,6 +23,7 @@ export default function HomeEditorPage() {
     async function fetchConfig() {
       const { data } = await supabase.from('site_config').select('*').single()
       if (data) {
+        siteConfigColumnKeysRef.current = new Set(Object.keys(data as Record<string, unknown>))
         // Migration safeguard: Ensure empty arrays are ready
         const safeData = {
           ...data,
@@ -123,8 +127,14 @@ export default function HomeEditorPage() {
     setSaving(true)
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { id, updated_at, updated_by, ...updates } = config
+      const allowedKeys = siteConfigColumnKeysRef.current
+      const updates: Record<string, unknown> = {}
+      for (const [key, value] of Object.entries(config)) {
+        if (OMIT_FROM_SITE_CONFIG_UPDATE.has(key)) continue
+        if (allowedKeys && !allowedKeys.has(key)) continue
+        updates[key] = value
+      }
+
       const { error } = await supabase
         .from('site_config')
         .update(updates)
@@ -133,8 +143,13 @@ export default function HomeEditorPage() {
       if (error) throw error
 
       toast.success('Página inicial salva com sucesso.')
-    } catch {
-      toast.error('Não foi possível salvar as alterações.')
+    } catch (err: unknown) {
+      const message =
+        err && typeof err === 'object' && 'message' in err && typeof (err as { message: unknown }).message === 'string'
+          ? (err as { message: string }).message
+          : 'Não foi possível salvar as alterações.'
+      console.error('Erro ao salvar site_config:', err)
+      toast.error(message)
     } finally {
       setSaving(false)
     }

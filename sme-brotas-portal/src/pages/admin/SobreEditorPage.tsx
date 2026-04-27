@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { supabase } from '../../config/supabase'
 import type { SobreConfig } from '../../types'
 import { ImageUpload } from '../../components/admin/ImageUpload'
 
+const OMIT_SITE_ABOUT_UPDATE = new Set(['id', 'updated_at', 'updated_by', 'created_at'])
+
 export default function SobreEditorPage() {
   const [config, setConfig] = useState<SobreConfig | null>(null)
+  const siteAboutColumnKeysRef = useRef<Set<string> | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [activeTab, setActiveTab] = useState<'visual' | 'conteudo' | 'mvv' | 'equipe'>('visual')
@@ -16,6 +19,7 @@ export default function SobreEditorPage() {
         const { data, error } = await supabase.from('site_about').select('*').single()
         if (error) throw error
         if (data) {
+          siteAboutColumnKeysRef.current = new Set(Object.keys(data as Record<string, unknown>))
           setConfig(data as SobreConfig)
         }
       } catch (error) {
@@ -33,8 +37,13 @@ export default function SobreEditorPage() {
     setSaving(true)
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { id, updated_at, ...updates } = config
+      const allowedKeys = siteAboutColumnKeysRef.current
+      const updates: Record<string, unknown> = {}
+      for (const [key, value] of Object.entries(config)) {
+        if (OMIT_SITE_ABOUT_UPDATE.has(key)) continue
+        if (allowedKeys && !allowedKeys.has(key)) continue
+        updates[key] = value
+      }
       const { error } = await supabase
         .from('site_about')
         .update(updates)
@@ -43,9 +52,13 @@ export default function SobreEditorPage() {
       if (error) throw error
 
       toast.success('Página Sobre atualizada com sucesso.')
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Erro ao salvar:', error)
-      toast.error('Não foi possível salvar as alterações.')
+      const message =
+        error && typeof error === 'object' && 'message' in error && typeof (error as { message: unknown }).message === 'string'
+          ? (error as { message: string }).message
+          : 'Não foi possível salvar as alterações.'
+      toast.error(message)
     } finally {
       setSaving(false)
     }

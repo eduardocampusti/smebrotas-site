@@ -1,0 +1,12 @@
+---
+description: Repositório e hospedagem do portal SME Brotas (produção)
+alwaysApply: true
+---
+
+# Deploy e repositório GitHub
+
+- **Repositório usado em produção na Hostinger:** [github.com/eduardocampusti/smebrotas-site-app](https://github.com/eduardocampusti/smebrotas-site-app)
+- **Branch padrão no GitHub (HEAD):** `main` — é ela que a Hostinger costuma puxar no deploy; pushes só em `master` **não** atualizam o site se o painel estiver ligado em `main`.
+- **Não há Vercel** neste projeto; ignore fluxos ou variáveis específicas da Vercel ao orientar deploy ou CI.
+
+Ao pedir para “subir no GitHub” ou atualizar o site em produção, priorize **push para `origin/main` ou `app/main`** (remoto `app` aponta para `smebrotas-site-app`).
