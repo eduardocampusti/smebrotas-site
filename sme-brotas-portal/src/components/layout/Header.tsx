@@ -20,6 +20,11 @@ const defaultActionButtons: HeaderActionButton[] = [
   { id: '2', texto: 'Portal do Servidor', link: 'https://www.keepinformatica.com.br/contracheque/web/user-management/auth/login', ativo: true, target_blank: true, cor: 'slate', ordem: 1 }
 ]
 
+function hasRequiredPortalButtons(buttons: HeaderActionButton[]) {
+  const normalized = buttons.map((button) => button.texto.trim().toLowerCase())
+  return normalized.includes('portal educacional') && normalized.includes('portal do servidor')
+}
+
 export default function Header() {
   const location = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -40,10 +45,12 @@ export default function Header() {
         }
 
         if (data.header_action_buttons && Array.isArray(data.header_action_buttons)) {
+          const sortedButtons = data.header_action_buttons
+            .filter((b: HeaderActionButton) => b.ativo)
+            .sort((a: HeaderActionButton, b: HeaderActionButton) => a.ordem - b.ordem)
+
           setActionButtons(
-            data.header_action_buttons
-              .filter((b: HeaderActionButton) => b.ativo)
-              .sort((a: HeaderActionButton, b: HeaderActionButton) => a.ordem - b.ordem)
+            hasRequiredPortalButtons(sortedButtons) ? sortedButtons : defaultActionButtons
           )
         }
       }
