@@ -13,6 +13,15 @@ import {
 import { AdminTransparenciaComplementaryDocsTab } from '../../components/admin/transparencia/AdminTransparenciaComplementaryDocsTab'
 import { createDefaultDashboardIndicators, createDefaultIndicatorDataMap } from '../../components/admin/transparencia/adminIndicatorMocks'
 import type { AdminDashboardIndicator, IndicatorDataBlock } from '../../components/admin/transparencia/types'
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '../../components/ui/alert-dialog'
+import { Button } from '../../components/ui/button'
 
 type TabType = 'visao-geral' | 'indicadores' | 'dados-indicadores' | 'estrutura' | 'documentos-complementares'
 type DocsTab = 'arquivos' | 'categorias' | 'indicadores-legados'
@@ -34,7 +43,7 @@ const defaultConfigForm: AdminStructureFormValues = {
 const tabDescriptions: Record<TabType, string> = {
   'visao-geral': 'Acompanhe o status geral dos indicadores exibidos na página pública.',
   indicadores: 'Edite os cards que aparecem no Painel de Indicadores da página pública.',
-  'dados-indicadores': 'Gerencie KPIs, gráficos, tabelas e textos de cada indicador.',
+  'dados-indicadores': 'Preencha indicadores resumidos, dados para gráficos e informações detalhadas de cada indicador.',
   estrutura: 'Configure títulos, textos e botões principais da página pública.',
   'documentos-complementares': 'Gerencie arquivos, atos oficiais e documentos antigos preservados.',
 }
@@ -56,6 +65,8 @@ export default function TransparenciaListPage() {
   )
 
   const [configForm, setConfigForm] = useState<AdminStructureFormValues>(defaultConfigForm)
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; table: string } | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   async function fetchData() {
     try {
@@ -156,14 +167,24 @@ export default function TransparenciaListPage() {
     }
   }
 
-  async function deleteItem(id: string, table: string) {
-    if (!confirm('Tem certeza que deseja excluir este item? Esta ação não pode ser desfeita.')) return
-    const { error } = await supabase.from(table).delete().eq('id', id)
-    if (!error) {
-      toast.success('Item excluído com sucesso.')
-      fetchData()
-    } else {
-      toast.error('Erro ao excluir item.')
+  function requestDeleteItem(id: string, table: string) {
+    setDeleteTarget({ id, table })
+  }
+
+  async function executeDeleteItem() {
+    if (!deleteTarget) return
+    setDeleting(true)
+    try {
+      const { error } = await supabase.from(deleteTarget.table).delete().eq('id', deleteTarget.id)
+      if (!error) {
+        toast.success('Item excluído com sucesso.')
+        setDeleteTarget(null)
+        fetchData()
+      } else {
+        toast.error('Erro ao excluir item.')
+      }
+    } finally {
+      setDeleting(false)
     }
   }
 
@@ -260,12 +281,31 @@ export default function TransparenciaListPage() {
           }
           onEditCategory={(category) => setEditingCategory(category)}
           onToggleArquivo={(arquivo) => toggleAtivo(arquivo, 'transparencia_arquivos')}
-          onDeleteArquivo={(id) => deleteItem(id, 'transparencia_arquivos')}
+          onDeleteArquivo={(id) => requestDeleteItem(id, 'transparencia_arquivos')}
           onToggleCategoria={(categoria) => toggleAtivo(categoria, 'transparencia_categorias')}
           onToggleIndicador={(indicador) => toggleAtivo(indicador, 'transparencia_indicadores')}
-          onDeleteIndicador={(id) => deleteItem(id, 'transparencia_indicadores')}
+          onDeleteIndicador={(id) => requestDeleteItem(id, 'transparencia_indicadores')}
         />
       )}
+
+      <AlertDialog open={Boolean(deleteTarget)} onOpenChange={(open) => !open && !deleting && setDeleteTarget(null)}>
+        <AlertDialogContent showCloseButton={!deleting}>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Excluir item?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Tem certeza de que deseja excluir este item? Esta ação não pode ser desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="sm:justify-end">
+            <Button type="button" variant="outline" onClick={() => setDeleteTarget(null)} disabled={deleting}>
+              Cancelar
+            </Button>
+            <Button type="button" variant="destructive" onClick={() => void executeDeleteItem()} disabled={deleting}>
+              {deleting ? 'Excluindo...' : 'Excluir'}
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {editingCategory && (
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">

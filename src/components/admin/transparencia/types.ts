@@ -32,4 +32,48 @@ export interface IndicatorDataBlock {
   graficos: IndicatorChartPoint[]
   tabelasTextos: IndicatorTableRow[]
   textoApoio: string
+  matriculas?: MatriculasDataBlock
+  eja?: EjaDataBlock
+}
+
+export interface MatriculasSimpleItem {
+  id: string
+  label: string
+  valor: string
+}
+
+export interface MatriculasDataSource {
+  fonte: string
+  anoReferencia: string
+  dataAtualizacao: string
+  link: string
+}
+
+export interface MatriculasEvolucaoManualItem {
+  id: string
+  ano: string
+  urbana: string
+  rural: string
+  educacaoEspecial: string
+}
+
+export interface MatriculasDataBlock {
+  resumo: MatriculasSimpleItem[]
+  etapas: MatriculasSimpleItem[]
+  evolucao: MatriculasSimpleItem[]
+  evolucaoManual?: MatriculasEvolucaoManualItem[]
+  localizacao: MatriculasSimpleItem[]
+  fonte: MatriculasDataSource
+}
+
+export interface EjaEvolucaoManualItem {
+  id: string
+  ano: string
+  urbana: string
+  rural: string
+}
+
+export interface EjaDataBlock {
+  evolucaoManual: EjaEvolucaoManualItem[]
+  fonte: MatriculasDataSource
 }
