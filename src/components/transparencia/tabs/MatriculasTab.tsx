@@ -24,7 +24,15 @@ import {
   type MatriculasTabPublicData,
 } from '@/services/transparencia/transparenciaMapper'
 
-const CORES_ETAPA = '#16A34A'
+/** Cores por etapa (gráfico de barras — alinhado às chaves de `porEtapaOrdenado`). */
+const CORES_ETAPAS: Record<string, string> = {
+  Creche: '#2563eb',
+  'Pré-escola': '#f59e0b',
+  'Anos Iniciais': '#16a34a',
+  'Anos Finais': '#7c3aed',
+  EJA: '#dc2626',
+  'AEE / Educação Especial': '#ea580c',
+}
 const CORES_COMPOSICAO = ['#0B4F8A', '#16A34A', '#CA8A04']
 const CORES_LOCALIZACAO = ['#0B4F8A', '#22C55E']
 const CORES_EVOLUCAO = {
@@ -304,7 +312,14 @@ export function MatriculasTab() {
                   <XAxis dataKey="etapa" interval={0} angle={-12} textAnchor="end" height={56} tick={{ fontSize: 11 }} />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="quantidade" fill={CORES_ETAPA} radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="quantidade" radius={[6, 6, 0, 0]}>
+                    {data.porEtapaOrdenado.map((entry, index) => (
+                      <Cell
+                        key={`etapa-${entry.etapa}-${index}`}
+                        fill={CORES_ETAPAS[entry.etapa] ?? '#64748b'}
+                      />
+                    ))}
+                  </Bar>
                 </BarChart>
               </ResponsiveContainer>
             </div>

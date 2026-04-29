@@ -178,11 +178,25 @@ function formatDataAtualizacaoRodape(value: string | null): string {
   return value.trim()
 }
 
+const TIPOS_REGISTRO_EVOLUCAO = new Set(['evolucao_localizacao', 'evolucao_educacao_especial'])
+
+function linhasMatriculaDoAnoReferencia(
+  linhas: MatriculasLinhaRecord[],
+  anoReferencia: number,
+): MatriculasLinhaRecord[] {
+  const anoAlvo = String(anoReferencia)
+  return linhas.filter((linha) => {
+    if (TIPOS_REGISTRO_EVOLUCAO.has(linha.tipo_registro)) return false
+    return String(linha.ano) === anoAlvo
+  })
+}
+
 export function mapMatriculasImportacaoToPublicTab(
   importacao: MatriculasImportacaoRecord,
   linhas: MatriculasLinhaRecord[],
 ): MatriculasTabPublicData {
-  const rows = linhas.map(matriculaLinhaToAggregationRow)
+  const linhasAnoRef = linhasMatriculaDoAnoReferencia(linhas, importacao.ano_referencia)
+  const rows = linhasAnoRef.map(matriculaLinhaToAggregationRow)
   const porEtapaOrdenado = buildPorEtapaOrdenado(rows)
 
   const composicaoImportacao = [
