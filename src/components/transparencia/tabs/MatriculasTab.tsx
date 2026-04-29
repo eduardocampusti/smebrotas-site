@@ -42,16 +42,10 @@ const CORES_EVOLUCAO = {
   educacaoEspecial: '#9D174D',
 }
 const CORES_EVOLUCAO_LOCALIZACAO = {
-  urbana: '#2563eb',
-  rural: '#16a34a',
-  totalGeral: '#f59e0b',
+  urbana: '#0B4F8A',
+  rural: '#10B981',
+  totalGeral: '#F59E0B',
 } as const
-
-const LEGENDA_EVOLUCAO_LOCALIZACAO = [
-  { dataKey: 'urbana', value: 'Urbana', color: CORES_EVOLUCAO_LOCALIZACAO.urbana },
-  { dataKey: 'rural', value: 'Rural', color: CORES_EVOLUCAO_LOCALIZACAO.rural },
-  { dataKey: 'totalGeral', value: 'Total geral', color: CORES_EVOLUCAO_LOCALIZACAO.totalGeral },
-]
 
 function ChartEmptyState({ text }: { text: string }) {
   return (
@@ -61,44 +55,57 @@ function ChartEmptyState({ text }: { text: string }) {
   )
 }
 
-type EvolucaoTooltipEntry = {
-  dataKey?: string | number
+type TooltipLocalizacaoPayloadEntry = {
   name?: string
-  value?: string | number
+  value?: number | string
+  fill?: string
   color?: string
 }
 
-function EvolucaoLocalizacaoTooltip({
+function TooltipLocalizacao({
   active,
   payload,
   label,
 }: {
   active?: boolean
-  payload?: EvolucaoTooltipEntry[]
+  payload?: TooltipLocalizacaoPayloadEntry[]
   label?: string | number
 }) {
   if (!active || !payload?.length) return null
 
-  const payloadByKey = new Map(payload.map((item) => [String(item.dataKey), item]))
-
   return (
-    <div className="rounded-md border border-slate-200 bg-white px-3 py-2 text-xs shadow-sm">
-      <p className="mb-2 font-semibold text-slate-900">Ano: {label}</p>
-      <div className="space-y-1">
-        {LEGENDA_EVOLUCAO_LOCALIZACAO.map((serie) => {
-          const item = payloadByKey.get(serie.dataKey)
-          if (!item) return null
-
-          return (
-            <div key={serie.dataKey} className="flex items-center gap-2">
-              <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: serie.color }} />
-              <span style={{ color: serie.color }}>
-                {serie.value}: {Number(item.value ?? 0).toLocaleString('pt-BR')}
-              </span>
+    <div className="min-w-[160px] rounded-xl border border-slate-200 bg-white p-3 text-sm shadow-xl">
+      <p className="mb-2 border-b border-slate-100 pb-2 font-bold text-[#0B2545]">Ano: {label}</p>
+      {payload.map((entry, i) => {
+        const num = Number(entry.value)
+        const texto = Number.isFinite(num) ? num.toLocaleString('pt-BR') : String(entry.value ?? '')
+        return (
+          <div key={i} className="flex items-center justify-between gap-4 py-0.5">
+            <div className="flex items-center gap-1.5">
+              <div
+                className="h-2.5 w-2.5 rounded-full"
+                style={{ background: entry.fill || entry.color }}
+              />
+              <span className="text-slate-600">{entry.name}</span>
             </div>
-          )
-        })}
-      </div>
+            <span className="font-bold text-[#0B2545]">{texto}</span>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function LegendaCustom({ payload }: { payload?: ReadonlyArray<{ value?: string; color?: string }> }) {
+  if (!payload?.length) return null
+  return (
+    <div className="mt-3 flex justify-center gap-5">
+      {payload.map((entry, i) => (
+        <div key={i} className="flex items-center gap-1.5">
+          <div className="h-3 w-3 rounded-sm" style={{ background: entry.color }} />
+          <span className="text-xs font-medium text-slate-600">{entry.value}</span>
+        </div>
+      ))}
     </div>
   )
 }
@@ -416,29 +423,42 @@ export function MatriculasTab() {
                     <p className="mb-2 text-sm font-semibold text-slate-900">Evolução anual por localização</p>
                     <div className="h-64">
                       <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={data.evolucaoAnual}>
-                          <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                          <XAxis dataKey="ano" />
-                          <YAxis />
-                          <Tooltip content={<EvolucaoLocalizacaoTooltip />} />
-                          <Legend />
+                        <BarChart data={data.evolucaoAnual} barCategoryGap="25%">
+                          <CartesianGrid stroke="#F1F5F9" strokeDasharray="3 3" vertical={false} />
+                          <XAxis
+                            dataKey="ano"
+                            tick={{ fontSize: 12, fill: '#94A3B8' }}
+                            axisLine={false}
+                            tickLine={false}
+                          />
+                          <YAxis
+                            tick={{ fontSize: 11, fill: '#94A3B8' }}
+                            axisLine={false}
+                            tickLine={false}
+                            tickFormatter={(v) => Number(v).toLocaleString('pt-BR')}
+                          />
+                          <Tooltip content={<TooltipLocalizacao />} cursor={{ fill: '#EFF6FF', radius: 4 }} />
+                          <Legend content={<LegendaCustom />} />
                           <Bar
                             dataKey="urbana"
                             name="Urbana"
                             fill={CORES_EVOLUCAO_LOCALIZACAO.urbana}
                             radius={[4, 4, 0, 0]}
+                            maxBarSize={18}
                           />
                           <Bar
                             dataKey="rural"
                             name="Rural"
                             fill={CORES_EVOLUCAO_LOCALIZACAO.rural}
                             radius={[4, 4, 0, 0]}
+                            maxBarSize={18}
                           />
                           <Bar
                             dataKey="totalGeral"
                             name="Total geral"
                             fill={CORES_EVOLUCAO_LOCALIZACAO.totalGeral}
                             radius={[4, 4, 0, 0]}
+                            maxBarSize={18}
                           />
                         </BarChart>
                       </ResponsiveContainer>
