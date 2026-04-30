@@ -180,6 +180,20 @@ const INDICADORES_FALLBACK: IdebIndicadorRow[] = [
   { ano: 2021, grupo: 'Comparativo 2021', indicador: 'Bahia', etapa: 'Anos Finais', valor: 3.8, unidade: 'indice', fonte: 'QEdu/INEP', publicado: true },
   { ano: 2021, grupo: 'Comparativo 2021', indicador: 'Brasil', etapa: 'Anos Iniciais', valor: 5.8, unidade: 'indice', fonte: 'QEdu/INEP', publicado: true },
   { ano: 2021, grupo: 'Comparativo 2021', indicador: 'Brasil', etapa: 'Anos Finais', valor: 5.1, unidade: 'indice', fonte: 'QEdu/INEP', publicado: true },
+  { ano: 2023, grupo: 'Rendimento e fluxo escolar', indicador: 'Aprovação', etapa: 'Anos Iniciais', valor: 96.2, unidade: 'percentual', fonte: 'QEdu/INEP', publicado: true },
+  { ano: 2023, grupo: 'Rendimento e fluxo escolar', indicador: 'Reprovação', etapa: 'Anos Iniciais', valor: 3.1, unidade: 'percentual', fonte: 'QEdu/INEP', publicado: true },
+  { ano: 2023, grupo: 'Rendimento e fluxo escolar', indicador: 'Abandono', etapa: 'Anos Iniciais', valor: 0.7, unidade: 'percentual', fonte: 'QEdu/INEP', publicado: true },
+  { ano: 2023, grupo: 'Rendimento e fluxo escolar', indicador: 'Aprovação', etapa: 'Anos Finais', valor: 87.5, unidade: 'percentual', fonte: 'QEdu/INEP', publicado: true },
+  { ano: 2023, grupo: 'Rendimento e fluxo escolar', indicador: 'Reprovação', etapa: 'Anos Finais', valor: 9.8, unidade: 'percentual', fonte: 'QEdu/INEP', publicado: true },
+  { ano: 2023, grupo: 'Rendimento e fluxo escolar', indicador: 'Abandono', etapa: 'Anos Finais', valor: 2.7, unidade: 'percentual', fonte: 'QEdu/INEP', publicado: true },
+  { ano: 2023, grupo: 'SAEB por disciplina', indicador: 'Língua Portuguesa', etapa: '5º ano', valor: 198.5, unidade: 'pontos', fonte: 'INEP', publicado: true },
+  { ano: 2023, grupo: 'SAEB por disciplina', indicador: 'Língua Portuguesa', etapa: '9º ano', valor: 242.0, unidade: 'pontos', fonte: 'INEP', publicado: true },
+  { ano: 2023, grupo: 'SAEB por disciplina', indicador: 'Matemática', etapa: '5º ano', valor: 205.2, unidade: 'pontos', fonte: 'INEP', publicado: true },
+  { ano: 2023, grupo: 'SAEB por disciplina', indicador: 'Matemática', etapa: '9º ano', valor: 248.6, unidade: 'pontos', fonte: 'INEP', publicado: true },
+  { ano: 2023, grupo: 'Infraestrutura', indicador: 'Internet Banda Larga', etapa: null, valor: 75, unidade: 'percentual', fonte: 'Censo Escolar', publicado: true },
+  { ano: 2023, grupo: 'Infraestrutura', indicador: 'Biblioteca / Sala de Leitura', etapa: null, valor: 60, unidade: 'percentual', fonte: 'Censo Escolar', publicado: true },
+  { ano: 2023, grupo: 'Infraestrutura', indicador: 'Quadra Esportiva Coberta', etapa: null, valor: 40, unidade: 'percentual', fonte: 'Censo Escolar', publicado: true },
+  { ano: 2023, grupo: 'Infraestrutura', indicador: 'Acessibilidade Completa', etapa: null, valor: 30, unidade: 'percentual', fonte: 'Censo Escolar', publicado: true },
 ]
 
 export const IDEB_FALLBACK: IdebDataset = {
@@ -188,6 +202,15 @@ export const IDEB_FALLBACK: IdebDataset = {
   indicadores: INDICADORES_FALLBACK,
   source: 'fallback',
 }
+
+const IDEB_CACHE_TTL_MS = 5 * 60 * 1000
+type IdebCacheEntry = {
+  data: IdebDataset
+  expiresAt: number
+}
+
+const idebCache: Partial<Record<'public' | 'admin', IdebCacheEntry>> = {}
+const idebInFlightRequests: Partial<Record<'public' | 'admin', Promise<IdebDataset>>> = {}
 
 async function fetchIdebData(publicOnly: boolean): Promise<IdebDataset> {
   try {
@@ -226,11 +249,33 @@ async function fetchIdebData(publicOnly: boolean): Promise<IdebDataset> {
 }
 
 export async function getIdebPublicData(): Promise<IdebDataset> {
-  return fetchIdebData(true)
+  const cacheKey = 'public'
+  const cached = idebCache[cacheKey]
+  if (cached && cached.expiresAt > Date.now()) return cached.data
+
+  if (!idebInFlightRequests[cacheKey]) {
+    idebInFlightRequests[cacheKey] = fetchIdebData(true).then((data) => {
+      idebCache[cacheKey] = { data, expiresAt: Date.now() + IDEB_CACHE_TTL_MS }
+      delete idebInFlightRequests[cacheKey]
+      return data
+    })
+  }
+  return idebInFlightRequests[cacheKey]!
 }
 
 export async function getIdebAdminData(): Promise<IdebDataset> {
-  return fetchIdebData(false)
+  const cacheKey = 'admin'
+  const cached = idebCache[cacheKey]
+  if (cached && cached.expiresAt > Date.now()) return cached.data
+
+  if (!idebInFlightRequests[cacheKey]) {
+    idebInFlightRequests[cacheKey] = fetchIdebData(false).then((data) => {
+      idebCache[cacheKey] = { data, expiresAt: Date.now() + IDEB_CACHE_TTL_MS }
+      delete idebInFlightRequests[cacheKey]
+      return data
+    })
+  }
+  return idebInFlightRequests[cacheKey]!
 }
 
 type IdebEntity = 'municipal' | 'escolas' | 'indicadores'
@@ -245,26 +290,36 @@ export async function upsertIdebMunicipal(row: IdebMunicipalRow) {
   const payload = { ...row, id: row.id ?? undefined }
   const { error } = await supabase.from(TABLE_BY_ENTITY.municipal).upsert(payload)
   if (error) throw error
+  idebCache.public = undefined
+  idebCache.admin = undefined
 }
 
 export async function upsertIdebEscola(row: IdebEscolaRow) {
   const payload = { ...row, id: row.id ?? undefined }
   const { error } = await supabase.from(TABLE_BY_ENTITY.escolas).upsert(payload)
   if (error) throw error
+  idebCache.public = undefined
+  idebCache.admin = undefined
 }
 
 export async function upsertIdebIndicador(row: IdebIndicadorRow) {
   const payload = { ...row, id: row.id ?? undefined }
   const { error } = await supabase.from(TABLE_BY_ENTITY.indicadores).upsert(payload)
   if (error) throw error
+  idebCache.public = undefined
+  idebCache.admin = undefined
 }
 
 export async function deleteIdebRow(entity: IdebEntity, id: string) {
   const { error } = await supabase.from(TABLE_BY_ENTITY[entity]).delete().eq('id', id)
   if (error) throw error
+  idebCache.public = undefined
+  idebCache.admin = undefined
 }
 
 export async function setIdebPublished(entity: IdebEntity, id: string, publicado: boolean) {
   const { error } = await supabase.from(TABLE_BY_ENTITY[entity]).update({ publicado }).eq('id', id)
   if (error) throw error
+  idebCache.public = undefined
+  idebCache.admin = undefined
 }
