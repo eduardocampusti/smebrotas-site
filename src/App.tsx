@@ -45,6 +45,7 @@ import ProgramaDetalhePage from './pages/public/ProgramaDetalhePage'
 import TransparenciaListPage from './pages/admin/TransparenciaListPage'
 import ArquivoEditorPage from './pages/admin/ArquivoEditorPage'
 import IndicadorEditorPage from './pages/admin/IndicadorEditorPage'
+import TransparenciaFundebPage from './pages/admin/TransparenciaFundebPage'
 
 export default function App() {
   return (
@@ -100,6 +101,7 @@ export default function App() {
             <Route path="/admin/programas/novo" element={<ProgramaEditorPage />} />
             <Route path="/admin/programas/:id" element={<ProgramaEditorPage />} />
             <Route path="/admin/transparencia" element={<TransparenciaListPage />} />
+            <Route path="/admin/transparencia/fundeb" element={<TransparenciaFundebPage />} />
             <Route path="/admin/transparencia/arquivo/novo" element={<ArquivoEditorPage />} />
             <Route path="/admin/transparencia/arquivo/:id" element={<ArquivoEditorPage />} />
             <Route path="/admin/transparencia/indicador/novo" element={<IndicadorEditorPage />} />

@@ -12,6 +12,7 @@ const menuItems = [
   { to: '/admin/servicos', label: 'Serviços', icon: 'home_repair_service' },
   { to: '/admin/programas', label: 'Programas', icon: 'assignment' },
   { to: '/admin/transparencia', label: 'Transparência', icon: 'visibility' },
+  { to: '/admin/transparencia/fundeb', label: 'Transparência FUNDEB', icon: 'account_balance' },
   { to: '/admin/contato', label: 'Contato', icon: 'contact_mail' },
   { to: '/admin/config', label: 'Configurações', icon: 'settings' },
 ]
