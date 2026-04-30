@@ -1,16 +1,4 @@
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Scatter,
-  ScatterChart,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
+import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis } from 'recharts'
 import { useEffect, useMemo, useState } from 'react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -19,11 +7,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { getIdebPublicData, type IdebDataset } from '@/services/transparencia/idebService'
 
 import { TransparenciaEmptyState } from '../TransparenciaEmptyState'
-import { TransparenciaExportCsvButton } from '../TransparenciaExportCsvButton'
 import { TransparenciaKpiCard } from '../TransparenciaKpiCard'
 import { TransparenciaTabSkeleton } from '../TransparenciaTabSkeleton'
 
 const ETAPAS = ['Anos Iniciais', 'Anos Finais', 'Ensino Médio'] as const
+const HISTORICO_ANOS = [2019, 2021, 2023]
 
 export function IdebTab() {
   const [loading, setLoading] = useState(true)
@@ -72,34 +60,36 @@ export function IdebTab() {
     [dataset, currentYear],
   )
 
-  const historico = useMemo(() => {
-    const anos = [2019, 2021, 2023]
-    return anos.map((ano) => {
-      const rowIniciais = (dataset?.municipal ?? []).find((r) => r.ano === ano && r.etapa === 'Anos Iniciais')
-      const rowFinais = (dataset?.municipal ?? []).find((r) => r.ano === ano && r.etapa === 'Anos Finais')
-      const rowMedio = (dataset?.municipal ?? []).find((r) => r.ano === ano && r.etapa === 'Ensino Médio')
-      return {
-        ano: String(ano),
-        anosIniciais: rowIniciais?.ideb ?? null,
-        anosFinais: rowFinais?.ideb ?? null,
-        ensinoMedio: rowMedio?.ideb ?? null,
-      }
-    })
-  }, [dataset])
-
-  const csvRows = useMemo(
+  const municipalHistorico = useMemo(
     () =>
-      (dataset?.municipal ?? []).map((item) => ({
-        ano: item.ano,
-        etapa: item.etapa,
-        ideb: item.ideb,
-        matematica: item.matematica,
-        portugues: item.portugues,
-        fluxo: item.fluxo,
-        fonte: item.fonte,
-      })),
+      (dataset?.municipal ?? []).filter((row) => row.observacao === 'dados_complementares_historicos' && row.ideb !== null),
     [dataset],
   )
+
+  const municipalOficial = useMemo(
+    () =>
+      (dataset?.municipal ?? []).filter((row) => row.ano === currentYear && row.observacao === 'dados_oficiais_relatorio_2023'),
+    [dataset, currentYear],
+  )
+
+  const historico = useMemo(() => {
+    return HISTORICO_ANOS.map((ano) => {
+      const rowIniciais = municipalHistorico.find((r) => r.ano === ano && r.etapa === 'Anos Iniciais')
+      const rowFinais = municipalHistorico.find((r) => r.ano === ano && r.etapa === 'Anos Finais')
+      const rowMedio = municipalHistorico.find((r) => r.ano === ano && r.etapa === 'Ensino Médio')
+      return {
+        ano: String(ano),
+        'Anos Iniciais': rowIniciais?.ideb ?? null,
+        'Anos Finais': rowFinais?.ideb ?? null,
+        'Ensino Médio': rowMedio?.ideb ?? null,
+      }
+    })
+  }, [municipalHistorico])
+
+  const indicadores = dataset?.indicadores ?? []
+  const infraestrutura = useMemo(() => indicadores.filter((x) => x.grupo === 'Infraestrutura'), [indicadores])
+  const saeb = useMemo(() => indicadores.filter((x) => x.grupo === 'SAEB por disciplina'), [indicadores])
+  const rendimento = useMemo(() => indicadores.filter((x) => x.grupo === 'Rendimento e fluxo escolar'), [indicadores])
 
   if (loading) return <TransparenciaTabSkeleton />
   if (error) {
@@ -113,23 +103,23 @@ export function IdebTab() {
     return <TransparenciaEmptyState />
   }
 
-  const melhorEscola = escolasAtual[0]
+  const melhorEscola = [...escolasAtual].sort((a, b) => (b.ideb ?? 0) - (a.ideb ?? 0))[0]
   const cards = [
     {
       label: 'IDEB Anos Iniciais',
-      value: municipalAtual.find((x) => x?.etapa === 'Anos Iniciais')?.ideb.toLocaleString('pt-BR') ?? '—',
+      value: municipalOficial.find((x) => x.etapa === 'Anos Iniciais')?.ideb?.toLocaleString('pt-BR') ?? '—',
     },
     {
       label: 'IDEB Anos Finais',
-      value: municipalAtual.find((x) => x?.etapa === 'Anos Finais')?.ideb.toLocaleString('pt-BR') ?? '—',
+      value: municipalOficial.find((x) => x.etapa === 'Anos Finais')?.ideb?.toLocaleString('pt-BR') ?? '—',
     },
     {
       label: 'IDEB Ensino Médio',
-      value: municipalAtual.find((x) => x?.etapa === 'Ensino Médio')?.ideb.toLocaleString('pt-BR') ?? '—',
+      value: municipalOficial.find((x) => x.etapa === 'Ensino Médio')?.ideb?.toLocaleString('pt-BR') ?? '—',
     },
     {
       label: 'Melhor escola com dado disponível',
-      value: melhorEscola ? `${melhorEscola.escola} — IDEB ${melhorEscola.ideb.toLocaleString('pt-BR')}` : '—',
+      value: melhorEscola ? `${melhorEscola.escola} — ${melhorEscola.ideb?.toLocaleString('pt-BR') ?? '—'}` : '—',
     },
   ]
 
@@ -138,22 +128,12 @@ export function IdebTab() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h3 className="text-xl font-bold text-slate-900">IDEB</h3>
-          <p className="text-sm text-slate-600">
-            Índice de Desenvolvimento da Educação Básica de Brotas de Macaúbas.
-          </p>
+          <p className="text-sm text-slate-600">Índice de Desenvolvimento da Educação Básica de Brotas de Macaúbas</p>
           <p className="text-xs text-slate-500">
-            O IDEB combina aprendizagem e fluxo escolar para análise da qualidade da educação básica.
+            O IDEB combina aprendizagem e fluxo escolar. Ele ajuda a acompanhar a qualidade da educação básica e orientar ações de melhoria da rede.
           </p>
         </div>
-        <TransparenciaExportCsvButton fileName="ideb-brotas.csv" rows={csvRows} />
       </div>
-
-      <Alert>
-        <AlertTitle>Leitura técnica</AlertTitle>
-        <AlertDescription>
-          O IDEB de Brotas de Macaúbas em 2023 mostra melhor desempenho nos Anos Iniciais, com IDEB 5,1, queda nos Anos Finais, com 4,8, e situação mais delicada no Ensino Médio, com 3,8. Nos Anos Iniciais, o fluxo escolar está muito alto, então a principal frente de melhoria é fortalecer a aprendizagem em Língua Portuguesa e Matemática.
-        </AlertDescription>
-      </Alert>
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         {cards.map((card) => (
@@ -169,7 +149,7 @@ export function IdebTab() {
           <CardContent>
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={municipalAtual}>
+                <BarChart data={municipalOficial}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="etapa" tick={{ fontSize: 11 }} />
                   <YAxis domain={[0, 10]} />
@@ -188,12 +168,12 @@ export function IdebTab() {
           <CardContent>
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={escolasAtual}>
+                <BarChart data={escolasAtual.map((x) => ({ ...x, nomeCurto: x.escola.replace('Escola Municipal ', '') }))}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="escola" tick={{ fontSize: 11 }} />
+                  <XAxis dataKey="nomeCurto" tick={{ fontSize: 11 }} />
                   <YAxis domain={[0, 10]} />
                   <Tooltip />
-                  <Bar dataKey="ideb" fill="#0B4F8A" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="ideb" fill="#0B4F8A" radius={[6, 6, 0, 0]} name="IDEB" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -209,13 +189,13 @@ export function IdebTab() {
           <CardContent>
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={escolasAtual}>
+                <BarChart data={escolasAtual.map((x) => ({ ...x, nomeCurto: x.escola.replace('Escola Municipal ', '') }))}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="escola" tick={{ fontSize: 11 }} />
+                  <XAxis dataKey="nomeCurto" tick={{ fontSize: 11 }} />
                   <YAxis domain={[0, 10]} />
                   <Tooltip />
-                  <Bar dataKey="aprendizado" fill="#0B4F8A" />
-                  <Bar dataKey="fluxo" fill="#10B981" />
+                  <Bar dataKey="aprendizado" fill="#0B4F8A" name="Aprendizado" />
+                  <Bar dataKey="fluxo" fill="#10B981" name="Fluxo" />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -243,28 +223,81 @@ export function IdebTab() {
 
       <Card className="border border-slate-200 py-0">
         <CardHeader>
-          <CardTitle>Série temporal IDEB (2019, 2021 e 2023)</CardTitle>
+          <CardTitle>BLOCO 2 — Evolução do IDEB (2019–2023)</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={historico}>
+                <LineChart data={historico}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="ano" />
                 <YAxis domain={[0, 10]} />
                 <Tooltip />
-                <Line connectNulls type="monotone" dataKey="anosIniciais" stroke="#0B4F8A" strokeWidth={2} />
-                <Line connectNulls type="monotone" dataKey="anosFinais" stroke="#0EA5E9" strokeWidth={2} />
-                <Line connectNulls type="monotone" dataKey="ensinoMedio" stroke="#DC2626" strokeWidth={2} />
+                <Line connectNulls type="monotone" dataKey="Anos Iniciais" stroke="#0B4F8A" strokeWidth={2} />
+                <Line connectNulls type="monotone" dataKey="Anos Finais" stroke="#0EA5E9" strokeWidth={2} />
+                <Line connectNulls type="monotone" dataKey="Ensino Médio" stroke="#DC2626" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </CardContent>
       </Card>
+      <Card className="border border-slate-200 py-0">
+        <CardHeader>
+          <CardTitle>Infraestrutura escolar</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-72">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart layout="vertical" data={infraestrutura}>
+                <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+                <XAxis type="number" domain={[0, 100]} />
+                <YAxis type="category" dataKey="indicador" width={180} tick={{ fontSize: 11 }} />
+                <Tooltip />
+                <Bar dataKey="valor" fill="#6366F1" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <Card className="border border-slate-200 py-0">
+          <CardHeader><CardTitle>SAEB por disciplina</CardTitle></CardHeader>
+          <CardContent>
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={saeb}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <XAxis dataKey="etapa" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="valor" fill="#14B8A6" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="border border-slate-200 py-0">
+          <CardHeader><CardTitle>Rendimento escolar por etapa</CardTitle></CardHeader>
+          <CardContent>
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={rendimento}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <XAxis dataKey="etapa" />
+                  <YAxis domain={[0, 100]} />
+                  <Tooltip />
+                  <Bar dataKey="valor" fill="#F97316" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       <Card className="border border-slate-200 py-0">
         <CardHeader>
-          <CardTitle>Tabela detalhada IDEB</CardTitle>
+          <CardTitle>Tabela IDEB municipal</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -280,13 +313,13 @@ export function IdebTab() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {municipalAtual.map((row) => (
+                {municipalOficial.map((row) => (
                   <TableRow key={`${row?.ano}-${row?.etapa}`}>
                     <TableCell>{row?.etapa}</TableCell>
-                    <TableCell>{row?.ideb.toLocaleString('pt-BR')}</TableCell>
-                    <TableCell>{row?.matematica.toLocaleString('pt-BR')}</TableCell>
-                    <TableCell>{row?.portugues.toLocaleString('pt-BR')}</TableCell>
-                    <TableCell>{row?.fluxo.toLocaleString('pt-BR')}</TableCell>
+                    <TableCell>{row?.ideb?.toLocaleString('pt-BR') ?? '—'}</TableCell>
+                    <TableCell>{row?.matematica?.toLocaleString('pt-BR') ?? '—'}</TableCell>
+                    <TableCell>{row?.portugues?.toLocaleString('pt-BR') ?? '—'}</TableCell>
+                    <TableCell>{row?.fluxo?.toLocaleString('pt-BR') ?? '—'}</TableCell>
                     <TableCell>{row?.fonte}</TableCell>
                   </TableRow>
                 ))}
@@ -296,12 +329,98 @@ export function IdebTab() {
         </CardContent>
       </Card>
 
+      <Card className="border border-slate-200 py-0">
+        <CardHeader>
+          <CardTitle>Tabela IDEB por escola</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <Table className="min-w-[900px]">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Escola</TableHead>
+                  <TableHead>Etapa</TableHead>
+                  <TableHead>IDEB</TableHead>
+                  <TableHead>Aprendizado</TableHead>
+                  <TableHead>Fluxo</TableHead>
+                  <TableHead>Leitura técnica</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {escolasAtual.map((row) => (
+                  <TableRow key={`${row.escola}-${row.ano}-${row.etapa}`}>
+                    <TableCell>{row.escola}</TableCell>
+                    <TableCell>{row.etapa}</TableCell>
+                    <TableCell>{row.ideb?.toLocaleString('pt-BR') ?? '—'}</TableCell>
+                    <TableCell>{row.aprendizado?.toLocaleString('pt-BR') ?? '—'}</TableCell>
+                    <TableCell>{row.fluxo?.toLocaleString('pt-BR') ?? '—'}</TableCell>
+                    <TableCell>{row.leitura_tecnica ?? '—'}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="border border-slate-200 py-0">
+        <CardHeader>
+          <CardTitle>Tabela indicadores complementares</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <Table className="min-w-[900px]">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Ano</TableHead>
+                  <TableHead>Grupo</TableHead>
+                  <TableHead>Indicador</TableHead>
+                  <TableHead>Etapa</TableHead>
+                  <TableHead>Valor</TableHead>
+                  <TableHead>Unidade</TableHead>
+                  <TableHead>Fonte</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {indicadores.map((row) => (
+                    <TableRow key={`${row.id ?? `${row.grupo}-${row.indicador}-${row.etapa}`}`}>
+                      <TableCell>{row.ano ?? '—'}</TableCell>
+                      <TableCell>{row.grupo}</TableCell>
+                      <TableCell>{row.indicador}</TableCell>
+                      <TableCell>{row.etapa ?? '—'}</TableCell>
+                      <TableCell>{row.valor?.toLocaleString('pt-BR') ?? '—'}</TableCell>
+                      <TableCell>{row.unidade ?? '—'}</TableCell>
+                      <TableCell>{row.fonte ?? '—'}</TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+
       <Alert>
-        <AlertTitle>Avisos importantes</AlertTitle>
+        <AlertTitle>Aviso institucional</AlertTitle>
         <AlertDescription>
-          Nem toda escola aparece no IDEB, pois algumas podem não ter dados disponíveis no Saeb ou não atender aos critérios de divulgação. O ranking escolar apresentado considera apenas as escolas com dados disponíveis. O Ensino Médio deve ser interpretado com cuidado, pois normalmente a oferta é da rede estadual.
+          Nem todas as escolas aparecem no IDEB, pois algumas podem não ter dados disponíveis no Saeb ou não atender aos critérios de divulgação.
         </AlertDescription>
       </Alert>
+
+      <Alert>
+        <AlertTitle>Aviso institucional</AlertTitle>
+        <AlertDescription>
+          O Ensino Médio deve ser interpretado com cuidado, pois normalmente a responsabilidade direta da oferta é da rede estadual.
+        </AlertDescription>
+      </Alert>
+
+      <Alert>
+        <AlertTitle>Dados complementares de série histórica</AlertTitle>
+        <AlertDescription>
+          Os dados de evolução e comparativos estão identificados como dados complementares informados para visualização histórica (fonte: QEdu/INEP).
+        </AlertDescription>
+      </Alert>
+
+      <p className="text-xs text-slate-500">Fontes: INEP/MEC, QEdu, Censo Escolar e relatório técnico municipal.</p>
     </div>
   )
 }
