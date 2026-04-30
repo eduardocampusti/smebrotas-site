@@ -70,8 +70,8 @@ export default function TransparenciaPage() {
   }
 
   return (
-    <div className="space-y-6 pb-8">
-      <div className="space-y-2">
+    <div className="space-y-4 pb-8">
+      <div className="mb-3 space-y-2">
         <h1 className="text-3xl font-black tracking-tight text-slate-900 md:text-4xl">
           Transparência e Indicadores Educacionais
         </h1>
@@ -87,7 +87,7 @@ export default function TransparenciaPage() {
         onSelect={changeTab}
       />
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 md:p-6">
+      <div className="rounded-2xl border border-slate-200 bg-white p-4">
         {tabLoading ? <TransparenciaTabSkeleton /> : null}
         {renderActiveIndicator()}
       </div>

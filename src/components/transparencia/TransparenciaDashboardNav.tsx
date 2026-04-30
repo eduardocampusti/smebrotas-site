@@ -28,7 +28,7 @@ export function TransparenciaDashboardNav({
   onSelect,
 }: TransparenciaDashboardNavProps) {
   return (
-    <section className="space-y-4">
+    <section className="space-y-3">
       <div className="space-y-1">
         <h2 className="text-xl font-bold text-slate-900 md:text-2xl">Painel de Indicadores</h2>
         <p className="text-sm text-slate-600">
@@ -47,7 +47,7 @@ export function TransparenciaDashboardNav({
               type="button"
               onClick={() => onSelect(indicator.id)}
               className={cn(
-                'w-full rounded-2xl border border-slate-200 bg-white p-4 text-left text-slate-700 shadow-md hover:shadow-xl hover:border-blue-400 hover:-translate-y-1 transition-all duration-300 cursor-pointer min-h-[110px]',
+                'w-full min-h-[100px] cursor-pointer rounded-2xl border border-slate-200 bg-white p-3 text-left text-slate-700 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-blue-400 hover:shadow-xl',
                 isActive && 'border-2 border-blue-700 bg-blue-50 shadow-xl',
                 !isActive && 'border-slate-200',
               )}
@@ -56,7 +56,7 @@ export function TransparenciaDashboardNav({
               <div className="mb-2 flex items-start justify-between gap-3">
                 <div
                   className={cn(
-                    'flex size-8 shrink-0 items-center justify-center rounded-lg transition-colors',
+                    'flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors',
                     iconClassesByTab[indicator.id],
                   )}
                 >
@@ -64,18 +64,18 @@ export function TransparenciaDashboardNav({
                 </div>
 
                 {isActive ? (
-                  <Badge className="h-5 bg-[#0B4F8A] px-2 text-[10px] font-semibold uppercase tracking-wide text-white hover:bg-[#0B4F8A]">
+                  <Badge className="h-5 bg-[#0B4F8A] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white hover:bg-[#0B4F8A]">
                     Selecionado
                   </Badge>
                 ) : (
-                  <Badge variant="outline" className="h-5 border-slate-200 px-2 text-[10px] text-slate-500">
+                  <Badge variant="outline" className="h-5 border-slate-200 px-2 py-0.5 text-[10px] text-slate-500">
                     {indicator.supportText ?? 'Indicador'}
                   </Badge>
                 )}
               </div>
 
-              <h3 className="text-sm font-semibold text-slate-900 md:text-base">{indicator.label}</h3>
-              <p className="mt-1 line-clamp-2 text-xs text-slate-600 md:text-sm">{indicator.description}</p>
+              <h3 className="text-sm font-semibold text-slate-900">{indicator.label}</h3>
+              <p className="mt-1 line-clamp-1 text-xs text-slate-400">{indicator.description}</p>
             </button>
           )
         })}
