@@ -45,6 +45,7 @@ import ProgramaDetalhePage from './pages/public/ProgramaDetalhePage'
 import TransparenciaListPage from './pages/admin/TransparenciaListPage'
 import ArquivoEditorPage from './pages/admin/ArquivoEditorPage'
 import IndicadorEditorPage from './pages/admin/IndicadorEditorPage'
+import PortalEditorPage from './pages/admin/PortalEditorPage'
 
 export default function App() {
   return (
@@ -104,6 +105,7 @@ export default function App() {
             <Route path="/admin/transparencia/arquivo/:id" element={<ArquivoEditorPage />} />
             <Route path="/admin/transparencia/indicador/novo" element={<IndicadorEditorPage />} />
             <Route path="/admin/transparencia/indicador/:id" element={<IndicadorEditorPage />} />
+            <Route path="/admin/portal" element={<PortalEditorPage />} />
           </Route>
         </Routes>
         <Toaster richColors position="top-right" />

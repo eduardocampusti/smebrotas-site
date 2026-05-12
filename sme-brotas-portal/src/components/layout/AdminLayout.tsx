@@ -2,8 +2,15 @@ import { Outlet, Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { toast } from 'sonner'
 import { useState } from 'react'
+import { Globe } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
-const menuItems = [
+const menuItems: {
+  to: string
+  label: string
+  icon?: string
+  LucideIcon?: LucideIcon
+}[] = [
   { to: '/admin', label: 'Dashboard', icon: 'dashboard' },
   { to: '/admin/home', label: 'Página Inicial', icon: 'home' },
   { to: '/admin/sobre', label: 'Sobre a Secretaria', icon: 'info' },
@@ -12,6 +19,7 @@ const menuItems = [
   { to: '/admin/servicos', label: 'Serviços', icon: 'home_repair_service' },
   { to: '/admin/programas', label: 'Programas', icon: 'assignment' },
   { to: '/admin/transparencia', label: 'Transparência', icon: 'visibility' },
+  { to: '/admin/portal', label: 'Portal Educacional', LucideIcon: Globe },
   { to: '/admin/contato', label: 'Contato', icon: 'contact_mail' },
   { to: '/admin/config', label: 'Configurações', icon: 'settings' },
 ]
@@ -63,7 +71,11 @@ export default function AdminLayout() {
                     : 'text-slate-300 hover:bg-slate-800 hover:text-white'
                 }`}
               >
-                <span className="material-symbols-outlined text-xl">{item.icon}</span>
+                {item.LucideIcon ? (
+                  <item.LucideIcon className="size-5 shrink-0 opacity-95" aria-hidden />
+                ) : (
+                  <span className="material-symbols-outlined text-xl">{item.icon}</span>
+                )}
                 {item.label}
               </Link>
             )
