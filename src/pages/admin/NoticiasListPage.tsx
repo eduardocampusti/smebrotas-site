@@ -47,6 +47,7 @@ export default function NoticiasListPage() {
       .from('noticias')
       .update({
         status: nextStatus,
+        publicado: nextStatus === 'publicado', // sincroniza boolean com status para RLS funcionar
         data_publicacao: nextStatus === 'publicado' ? (noticia.data_publicacao || new Date().toISOString()) : noticia.data_publicacao,
       })
       .eq('id', noticia.id)

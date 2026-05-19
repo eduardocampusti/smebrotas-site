@@ -171,6 +171,7 @@ export interface Noticia {
   categoria: string
   imagem_url: string | null
   status: 'rascunho' | 'publicado' | 'arquivado'
+  publicado: boolean // sincronizado com status — exigido pela RLS pública
   destaque: boolean
   data_publicacao: string | null
   created_at: string

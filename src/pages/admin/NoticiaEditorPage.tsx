@@ -43,8 +43,10 @@ export default function NoticiaEditorPage() {
     
     const payload = {
       ...formData,
-      data_publicacao: formData.status === 'publicado' 
-        ? (formData.data_publicacao || new Date().toISOString()) 
+      // Sincroniza boolean publicado com status para RLS pública funcionar
+      publicado: formData.status === 'publicado',
+      data_publicacao: formData.status === 'publicado'
+        ? (formData.data_publicacao || new Date().toISOString())
         : formData.data_publicacao,
       updated_at: new Date().toISOString(),
       updated_by: user?.id,
