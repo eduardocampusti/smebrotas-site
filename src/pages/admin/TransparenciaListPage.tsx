@@ -199,20 +199,25 @@ export default function TransparenciaListPage() {
           <p className="text-slate-500 mt-1">Painel administrativo da dashboard pública de Transparência Educacional.</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Link
-            to="/admin/transparencia/ideb"
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50"
-          >
-            <span className="material-symbols-outlined text-base">query_stats</span>
-            Ir para gestão IDEB
-          </Link>
-          <Link
-            to="/admin/transparencia/fundeb"
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50"
-          >
-            <span className="material-symbols-outlined text-base">account_balance</span>
-            Ir para gestão FUNDEB
-          </Link>
+          {[
+            { to: '/admin/transparencia/ideb',        icon: 'query_stats',    label: 'IDEB' },
+            { to: '/admin/transparencia/fundeb',       icon: 'account_balance',label: 'FUNDEB' },
+            { to: '/admin/transparencia/agricultura',  icon: 'eco',            label: 'Agricultura' },
+            { to: '/admin/transparencia/alimentacao',  icon: 'restaurant',     label: 'Alimentação' },
+            { to: '/admin/transparencia/cardapio',     icon: 'menu_book',      label: 'Cardápio' },
+            { to: '/admin/transparencia/ensino',       icon: 'school',         label: 'Ensino' },
+            { to: '/admin/transparencia/licitacoes',   icon: 'gavel',          label: 'Licitações' },
+            { to: '/admin/transparencia/transporte',   icon: 'directions_bus', label: 'Transporte' },
+          ].map(btn => (
+            <Link
+              key={btn.to}
+              to={btn.to}
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:border-slate-300 transition-colors"
+            >
+              <span className="material-symbols-outlined text-base">{btn.icon}</span>
+              {btn.label}
+            </Link>
+          ))}
         </div>
       </div>
 

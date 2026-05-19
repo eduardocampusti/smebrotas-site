@@ -1,23 +1,38 @@
+import { useEffect, useState } from 'react'
+import { getAgriculturaPublic, type AgriculturaRow } from '@/services/transparencia/agriculturaService'
 import { SimpleMetricsTab } from './SimpleMetricsTab'
+import { TransparenciaEmptyState } from '../TransparenciaEmptyState'
+import { TransparenciaTabSkeleton } from '../TransparenciaTabSkeleton'
 
 export function AgriculturaTab() {
+  const [rows, setRows] = useState<AgriculturaRow[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    getAgriculturaPublic()
+      .then(setRows)
+      .catch(() => setRows([]))
+      .finally(() => setLoading(false))
+  }, [])
+
+  if (loading) return <TransparenciaTabSkeleton />
+  const latest = rows[0]
+  if (!latest) return <TransparenciaEmptyState />
+
+  const chartData = rows.slice(0, 6).reverse().map(r => ({ label: String(r.ano), value: Number(r.percentual_af) }))
+
   return (
     <SimpleMetricsTab
       title="Agricultura Familiar"
-      description="Acompanhamento da meta PNAE e participacao de fornecedores locais."
+      description={`Acompanhamento da meta PNAE e participação de fornecedores locais. Fonte: ${latest.fonte}`}
       csvFileName="agricultura-familiar.csv"
-      chartTitle="% de compras da agricultura familiar"
+      chartTitle="% de compras da agricultura familiar por ano"
       kpis={[
-        { label: '% atual', value: '32%' },
-        { label: 'Meta PNAE', value: '30%' },
-        { label: 'Nº fornecedores', value: '18' },
+        { label: '% atual ('+latest.ano+')', value: `${Number(latest.percentual_af).toFixed(1)}%` },
+        { label: 'Meta PNAE', value: `${Number(latest.meta_pnae).toFixed(0)}%` },
+        { label: 'Nº fornecedores', value: String(latest.num_fornecedores) },
       ]}
-      data={[
-        { label: 'Jan', value: 28 },
-        { label: 'Fev', value: 30 },
-        { label: 'Mar', value: 33 },
-        { label: 'Abr', value: 32 },
-      ]}
+      data={chartData}
     />
   )
 }

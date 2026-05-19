@@ -20,7 +20,6 @@ import AtosOficiaisPage from './pages/public/AtosOficiaisPage'
 import PortalPage from './pages/public/PortalPage'
 import NoticiaDetalhePage from './pages/public/NoticiaDetalhePage'
 import EscolaDetalhePage from './pages/public/EscolaDetalhePage'
-
 import ServicoDetalhePage from './pages/public/ServicoDetalhePage'
 import OuvidoriaPage from './pages/public/OuvidoriaPage'
 import AcessoInformacaoPage from './pages/public/AcessoInformacaoPage'
@@ -47,6 +46,12 @@ import ArquivoEditorPage from './pages/admin/ArquivoEditorPage'
 import IndicadorEditorPage from './pages/admin/IndicadorEditorPage'
 import TransparenciaFundebPage from './pages/admin/TransparenciaFundebPage'
 import TransparenciaIdebPage from './pages/admin/TransparenciaIdebPage'
+import TransparenciaAgriculturaPage from './pages/admin/TransparenciaAgriculturaPage'
+import TransparenciaAlimentacaoPage from './pages/admin/TransparenciaAlimentacaoPage'
+import TransparenciaCardapioPage from './pages/admin/TransparenciaCardapioPage'
+import TransparenciaEnsinoPage from './pages/admin/TransparenciaEnsinoPage'
+import TransparenciaLicitacoesPage from './pages/admin/TransparenciaLicitacoesPage'
+import TransparenciaTransportePage from './pages/admin/TransparenciaTransportePage'
 
 export default function App() {
   return (
@@ -108,6 +113,12 @@ export default function App() {
             <Route path="/admin/transparencia/arquivo/:id" element={<ArquivoEditorPage />} />
             <Route path="/admin/transparencia/indicador/novo" element={<IndicadorEditorPage />} />
             <Route path="/admin/transparencia/indicador/:id" element={<IndicadorEditorPage />} />
+            <Route path="/admin/transparencia/agricultura" element={<TransparenciaAgriculturaPage />} />
+            <Route path="/admin/transparencia/alimentacao" element={<TransparenciaAlimentacaoPage />} />
+            <Route path="/admin/transparencia/cardapio" element={<TransparenciaCardapioPage />} />
+            <Route path="/admin/transparencia/ensino" element={<TransparenciaEnsinoPage />} />
+            <Route path="/admin/transparencia/licitacoes" element={<TransparenciaLicitacoesPage />} />
+            <Route path="/admin/transparencia/transporte" element={<TransparenciaTransportePage />} />
           </Route>
         </Routes>
         <Toaster richColors position="top-right" />

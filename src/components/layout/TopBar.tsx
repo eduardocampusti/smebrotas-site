@@ -5,14 +5,14 @@ import { supabase } from '../../config/supabase'
 import type { TopBarItem } from '../../types'
 
 const TEMP_TOPBAR_ITEMS: TopBarItem[] = [
-  { id: '1', texto: 'Ouvidoria', icone: 'hearing', link: '#', target_blank: true, ativo: true, ordem: 1 },
-  { id: '2', texto: 'Diário Oficial', icone: 'description', link: '#', target_blank: true, ativo: true, ordem: 2 },
-  { id: '3', texto: 'Acesso à Informação', icone: 'info', link: '#', target_blank: true, ativo: true, ordem: 3 },
-  { id: '4', texto: 'Proteção de Dados', icone: 'shield', link: '#', target_blank: true, ativo: true, ordem: 4 },
-  { id: '5', texto: 'Governo Digital', icone: 'computer', link: '#', target_blank: true, ativo: true, ordem: 5 },
+  { id: '1', texto: 'Ouvidoria', icone: 'hearing', link: 'https://brotasdemacaubas.ba.gov.br/', target_blank: true, ativo: true, ordem: 1 },
+  { id: '2', texto: 'Diário Oficial', icone: 'description', link: 'https://doem.org.br/ba/brotasdemacaubas', target_blank: true, ativo: true, ordem: 2 },
+  { id: '3', texto: 'Acesso à Informação', icone: 'info', link: 'https://acessoinformacao.brotasdemacaubas.ba.gov.br/', target_blank: true, ativo: true, ordem: 3 },
+  { id: '4', texto: 'Proteção de Dados', icone: 'shield', link: 'https://acessoinformacao.brotasdemacaubas.ba.gov.br/', target_blank: true, ativo: true, ordem: 4 },
+  { id: '5', texto: 'Governo Digital', icone: 'computer', link: 'https://www.gov.br/governodigital/pt-br', target_blank: true, ativo: true, ordem: 5 },
   { id: '6', texto: 'Mapa do Site', icone: 'map', link: '/mapa-do-site', target_blank: false, ativo: true, ordem: 6 },
   { id: '7', texto: 'Webmail', icone: 'mail', link: '#', target_blank: true, ativo: true, ordem: 7 },
-  { id: '8', texto: 'Instagram', icone: 'photo_camera', link: '#', target_blank: true, ativo: true, ordem: 8 }
+  { id: '8', texto: 'Instagram', icone: 'photo_camera', link: 'https://www.instagram.com/smebrotas/', target_blank: true, ativo: true, ordem: 8 }
 ]
 
 function isInternalLink(link: string): boolean {
