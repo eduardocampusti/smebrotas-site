@@ -97,7 +97,7 @@ export default function PortalPage() {
       {/* 1. Hero */}
       <section
         className="relative overflow-hidden rounded-2xl px-6 py-10 text-white shadow-lg sm:px-10 sm:py-12 md:px-12 md:py-14"
-        style={{ backgroundColor: '#0C447C' }}
+        style={{ background: 'linear-gradient(135deg, #0C447C 0%, #185FA5 100%)' }}
       >
         <div
           className="pointer-events-none absolute -right-8 top-0 h-full w-[min(55%,20rem)] opacity-[0.18] sm:w-[min(50%,24rem)]"
@@ -114,7 +114,7 @@ export default function PortalPage() {
               Portal Educacional
             </span>
           </div>
-          <h1 className="font-display text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
+          <h1 className="font-display text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
             Sistemas da Secretaria Municipal de Educação
           </h1>
           <p className="text-base leading-relaxed text-white/85 sm:text-lg">
@@ -131,13 +131,16 @@ export default function PortalPage() {
         </p>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
           {/* NutriAssist */}
-          <article className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm">
+          <article 
+            className="flex h-full flex-col gap-4 rounded-2xl bg-card p-5 shadow-md transition-shadow duration-200 hover:shadow-lg"
+            style={{ border: '1.5px solid #ea580c' }}
+          >
             <div className="flex items-start justify-between gap-3">
               <div
                 className="flex size-12 shrink-0 items-center justify-center rounded-xl"
-                style={{ backgroundColor: '#E6F1FB' }}
+                style={{ backgroundColor: '#ffedd5' }}
               >
-                <Utensils className="size-6" strokeWidth={2} style={{ color: '#185FA5' }} aria-hidden />
+                <Utensils className="size-6" strokeWidth={2} style={{ color: '#ea580c' }} aria-hidden />
               </div>
             </div>
             <div className="space-y-1">
@@ -151,7 +154,7 @@ export default function PortalPage() {
               href={NUTRI_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-background px-4 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+              className="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#ea580c] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#c2410c]"
             >
               Acessar sistema
               <ExternalLink className="size-4 shrink-0 opacity-70" aria-hidden />
@@ -160,13 +163,12 @@ export default function PortalPage() {
 
           {/* Sistema Brotar */}
           <article
-            className="relative flex flex-col gap-4 rounded-2xl border-2 bg-card p-5 shadow-md"
-            style={{ borderColor: '#0F6E56' }}
+            className="relative flex h-full flex-col gap-4 rounded-2xl bg-card p-5 shadow-md transition-shadow duration-200 hover:shadow-lg"
+            style={{ border: '1.5px solid #0F6E56' }}
           >
             <div className="flex justify-end">
               <span
-                className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide"
-                style={{ backgroundColor: '#E1F5EE', color: '#0F6E56' }}
+                className="inline-flex items-center rounded-full bg-[#dcfce7] text-[#15803d] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide"
               >
                 Acesso por perfil
               </span>
@@ -187,8 +189,7 @@ export default function PortalPage() {
             <button
               type="button"
               onClick={() => togglePerfil('brotar')}
-              className="mt-auto inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-95"
-              style={{ backgroundColor: '#0F6E56' }}
+              className="mt-auto inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#0F6E56] hover:bg-[#085041] px-4 py-2.5 text-sm font-semibold text-white transition-colors"
             >
               {perfilAberto === 'brotar' ? 'Ocultar perfis' : 'Ver perfis abaixo'}
               {perfilAberto === 'brotar' ? (
@@ -201,13 +202,12 @@ export default function PortalPage() {
 
           {/* Boletim Escolar — destacado */}
           <article
-            className="flex flex-col gap-4 rounded-2xl border-2 bg-card p-5 shadow-md"
-            style={{ borderColor: '#185FA5' }}
+            className="flex h-full flex-col gap-4 rounded-2xl bg-card p-5 shadow-md transition-shadow duration-200 hover:shadow-lg"
+            style={{ border: '1.5px solid #185FA5' }}
           >
             <div className="flex flex-wrap items-start justify-between gap-2">
               <span
-                className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white"
-                style={{ backgroundColor: '#185FA5' }}
+                className="inline-flex items-center rounded-full bg-[#dbeafe] text-[#1d4ed8] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide"
               >
                 Acesso por perfil
               </span>
@@ -228,8 +228,7 @@ export default function PortalPage() {
             <button
               type="button"
               onClick={() => togglePerfil('boletim')}
-              className="mt-auto inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-95"
-              style={{ backgroundColor: '#185FA5' }}
+              className="mt-auto inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-[#185FA5] hover:bg-[#0C447C] px-4 py-2.5 text-sm font-semibold text-white transition-colors"
             >
               {perfilAberto === 'boletim' ? 'Ocultar perfis' : 'Ver perfis abaixo'}
               {perfilAberto === 'boletim' ? (
@@ -384,19 +383,26 @@ export default function PortalPage() {
 
       {/* 5. Rodapé informativo */}
       <footer className="grid grid-cols-1 gap-3 md:grid-cols-3">
-        <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/40 px-4 py-3">
+        <div className="flex items-center gap-3 rounded-xl border border-border bg-white px-4 py-3 shadow-sm">
           <ShieldCheck className="size-6 shrink-0 text-teal-600 dark:text-teal-400" aria-hidden />
-          <span className="text-sm font-medium text-foreground">Acesso seguro com login individual</span>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Segurança</span>
+            <span className="text-sm text-slate-600">Acesso com login individual</span>
+          </div>
         </div>
-        <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/40 px-4 py-3">
+        <div className="flex items-center gap-3 rounded-xl border border-border bg-white px-4 py-3 shadow-sm">
           <Smartphone className="size-6 shrink-0 text-[#185FA5]" aria-hidden />
-          <span className="text-sm font-medium text-foreground">Funciona no celular e computador</span>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Compatibilidade</span>
+            <span className="text-sm text-slate-600">Celular e computador</span>
+          </div>
         </div>
-        <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/40 px-4 py-3">
+        <div className="flex items-center gap-3 rounded-xl border border-border bg-white px-4 py-3 shadow-sm">
           <Headphones className="size-6 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden />
-          <span className="text-sm font-medium text-foreground">
-            Suporte: (75) {NUMERO_SUPORTE}
-          </span>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Suporte</span>
+            <span className="text-sm text-slate-600">(75) {NUMERO_SUPORTE}</span>
+          </div>
         </div>
       </footer>
     </div>
